@@ -92,4 +92,22 @@ public class SpriteAtlas {
 
         return volatileAtlasImage;
     }
+
+    /**
+     * Retrieves a specific sprite sheet.
+     *
+     * @param name
+     *          The name of the sheet to retrieve.
+     *
+     * @return
+     *          Either the sheet, or null if the name is null, empty, or if
+     *          no sheet using the specified name exists.
+     */
+    public SpriteSheet getSpriteSheet(final String name) {
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
+
+        return spriteSheets.get(name);
+    }
 }
