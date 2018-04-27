@@ -23,7 +23,7 @@ public class SpriteAtlas {
     /**
      * Constructs a new SpriteAtlas.
      *
-     * Closes streams after use.
+     * Does not close streams after use.
      *
      * @param atlasImageStream
      *          The input stream for the atlas' image.
@@ -55,10 +55,6 @@ public class SpriteAtlas {
             final SpriteSheet sheet = new SpriteSheet(this, (JSONObject) sheetData);
             spriteSheets.put(sheet.getName(), sheet);
         });
-
-        // Close Streams:
-        atlasImageStream.close();
-        atlasJSONStream.close();
     }
 
     /**
