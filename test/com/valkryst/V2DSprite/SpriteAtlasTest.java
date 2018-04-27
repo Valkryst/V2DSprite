@@ -70,7 +70,7 @@ public class SpriteAtlasTest {
     }
 
     @Test
-    public void testGetSpriteSheet_withNonExistantSpriteSheet() throws IOException, ParseException {
+    public void testGetSpriteSheet_withNonExistingSpriteSheet() throws IOException, ParseException {
         final SpriteAtlas atlas = new SpriteAtlas(atlasImageStream, atlasJSONStream);
         Assert.assertNull(atlas.getSpriteSheet("SomeRandomWords"));
     }
