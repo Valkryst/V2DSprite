@@ -2,6 +2,7 @@ package com.valkryst.V2DSprite;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -22,12 +23,12 @@ public class SpriteAnimation {
     private final Dimension[] frameDimensions;
 
     /** The current frame of animation. */
-    private int curFrame = 0;
+    @Getter private int curFrame = 0;
 
     /** Whether to flip the sprite horizontally when drawing. */
-    private boolean flippedHorizontally = false;
+    @Getter @Setter private boolean flippedHorizontally = false;
     /** Whether to flip the sprite vertically when drawing. */
-    private boolean flippedVertically = false;
+    @Getter @Setter private boolean flippedVertically = false;
 
     /**
      * Constructs a new SpriteAnimation.
@@ -52,10 +53,10 @@ public class SpriteAnimation {
         for (int index = 0 ; index < frameDataArray.size() ; index++) {
             final JSONObject frameData = (JSONObject) frameDataArray.get(index);
 
-            final int x = (int) frameData.get("x");
-            final int y = (int) frameData.get("y");
-            final int width = (int) frameData.get("width");
-            final int height = (int) frameData.get("height");
+            final int x = ((Number) frameData.get("x")).intValue();
+            final int y = ((Number) frameData.get("y")).intValue();
+            final int width = ((Number) frameData.get("width")).intValue();
+            final int height = ((Number) frameData.get("height")).intValue();
 
             framePositions[index] = new Point(x, y);
             frameDimensions[index] = new Dimension(width, height);
@@ -137,5 +138,15 @@ public class SpriteAnimation {
         } else {
             curFrame = framePositions.length;
         }
+    }
+
+    /**
+     * Retrieves the total number of frames.
+     *
+     * @return
+     *          The total number of frames.
+     */
+    public int getTotalFrames() {
+        return framePositions.length;
     }
 }
