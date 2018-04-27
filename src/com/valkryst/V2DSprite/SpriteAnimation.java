@@ -120,7 +120,7 @@ public class SpriteAnimation {
      * If the current frame is the last frame, then the frame counter will cycle to the first frame.
      */
     public void toNextFrame() {
-        if (curFrame < framePositions.length) {
+        if (curFrame < framePositions.length - 1) {
             curFrame++;
         } else {
             curFrame = 0;
@@ -136,7 +136,7 @@ public class SpriteAnimation {
         if (curFrame > 0) {
             curFrame--;
         } else {
-            curFrame = framePositions.length;
+            curFrame = framePositions.length - 1;
         }
     }
 
