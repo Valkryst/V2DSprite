@@ -37,12 +37,20 @@ public class SpriteAtlas {
      * @throws IOException
      *          If an error occurs during reading or when not able to create required ImageInputStream.
      *
+     * @throws IllegalArgumentException
+     *          If the size of the loaded image is greater than 2048x2048.
+     *
      * @throws ParseException
      *          If an error occurs during parsing of the JSON file.
      */
     public SpriteAtlas(final @NonNull InputStream atlasImageStream, final @NonNull InputStream atlasJSONStream) throws IOException, ParseException {
         // Load Buffered Image:
         bufferedAtlasImage = ImageIO.read(atlasImageStream);
+
+        if (bufferedAtlasImage.getWidth() > 2048 || bufferedAtlasImage.getHeight() > 2048) {
+            throw new IllegalArgumentException("The image used by the sprite atlas should not exceed 2048x2048 in size.");
+        }
+
         volatileAtlasImage = convertToVolatileImage(bufferedAtlasImage);
         atlasImageStream.close();
 
