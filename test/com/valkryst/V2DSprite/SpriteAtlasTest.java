@@ -56,4 +56,22 @@ public class SpriteAtlasTest {
     public void testConstructor_withNullJSONStream() throws IOException, ParseException {
         new SpriteAtlas(atlasImageStream, null);
     }
+
+    @Test
+    public void testGetAtlasImage() throws IOException, ParseException {
+        final SpriteAtlas atlas = new SpriteAtlas(atlasImageStream, atlasJSONStream);
+        Assert.assertNotNull(atlas.getAtlasImage());
+    }
+
+    @Test
+    public void testGetSpriteSheet_withExistingSpriteSheet() throws IOException, ParseException {
+        final SpriteAtlas atlas = new SpriteAtlas(atlasImageStream, atlasJSONStream);
+        Assert.assertNotNull(atlas.getSpriteSheet("Player"));
+    }
+
+    @Test
+    public void testGetSpriteSheet_withNonExistantSpriteSheet() throws IOException, ParseException {
+        final SpriteAtlas atlas = new SpriteAtlas(atlasImageStream, atlasJSONStream);
+        Assert.assertNull(atlas.getSpriteSheet("SomeRandomWords"));
+    }
 }
