@@ -7,7 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.VolatileImage;
 
@@ -72,7 +72,7 @@ public class SpriteAnimation {
      * @param destination
      *          The top-left corner of the point, on the graphics context, where the frame is to be drawn.
      */
-    public void draw(final Graphics2D gc, final Point destination) {
+    public void draw(final Graphics gc, final Point destination) {
         if (gc == null || destination == null) {
             return;
         }
