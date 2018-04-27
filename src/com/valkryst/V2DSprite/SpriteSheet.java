@@ -1,6 +1,5 @@
 package com.valkryst.V2DSprite;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@EqualsAndHashCode
 public class SpriteSheet {
     /** The sprite atlas. */
     private final SpriteAtlas spriteAtlas;

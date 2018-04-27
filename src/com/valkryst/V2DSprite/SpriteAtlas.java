@@ -1,6 +1,5 @@
 package com.valkryst.V2DSprite;
 
-import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,7 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-@EqualsAndHashCode
 public class SpriteAtlas {
     private final BufferedImage bufferedAtlasImage;
     private VolatileImage volatileAtlasImage;

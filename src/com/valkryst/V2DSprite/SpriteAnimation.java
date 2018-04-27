@@ -1,15 +1,15 @@
 package com.valkryst.V2DSprite;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.VolatileImage;
 
-@EqualsAndHashCode
 public class SpriteAnimation {
     /** The sprite atlas. */
     private final SpriteAtlas spriteAtlas;
