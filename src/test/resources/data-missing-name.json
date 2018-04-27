@@ -1,0 +1,41 @@
+[
+    {
+        "x": 0,
+        "y": 0,
+        "width": 32,
+        "height": 32
+    },
+    {
+        "name": "Green",
+        "x": 32,
+        "y": 0,
+        "width": 32,
+        "height": 32
+    },
+    {
+        "name": "Teal",
+        "x": 64,
+        "y": 0,
+        "width": 32,
+        "height": 32
+    },
+    {
+        "x": 0,
+        "y": 32,
+        "width": 32,
+        "height": 32
+    },
+    {
+        "name": "Orange",
+        "x": 32,
+        "y": 32,
+        "width": 32,
+        "height": 32
+    },
+    {
+        "x": 64,
+        "y": 32,
+        "width": 32,
+        "height": 32
+    }
+]
