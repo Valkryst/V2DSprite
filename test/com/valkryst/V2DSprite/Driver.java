@@ -103,7 +103,7 @@ public class Driver {
                 while (bs.contentsRestored()); // Repeat render if drawing buffer contents were restored.
 
                 bs.show();
-                Toolkit.getDefaultToolkit().sync();
+                Toolkit.getDefaultToolkit().sync(); // NOT NECESSARY MOST OF THE TIME. FIXES SOME RENDER ISSUES ON LINUX, UNDER CERTAIN CIRUMSTANCES.
             } while (bs.contentsLost()); // Repeat render if drawing buffer was lost.
 
 
