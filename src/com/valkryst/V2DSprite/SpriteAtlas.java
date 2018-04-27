@@ -16,8 +16,11 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class SpriteAtlas {
+    /** The image loaded from disk. */
     private final BufferedImage bufferedAtlasImage;
+    /** The image used to draw with. */
     private VolatileImage volatileAtlasImage;
+    /** The sprite sheets contained on the atlas image. */
     private final HashMap<String, SpriteSheet> spriteSheets = new HashMap<>();
 
     /**
