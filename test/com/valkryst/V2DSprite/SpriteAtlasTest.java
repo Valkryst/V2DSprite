@@ -33,8 +33,18 @@ public class SpriteAtlasTest {
         // Ensure Image Exists
         Assert.assertNotNull(atlas.getAtlasImage());
 
-        // Ensure Sprite Sheet Exists
+        // Ensure Sprite Sheet Exists & Data Is Correct
         Assert.assertNotNull(atlas.getSpriteSheet("Player"));
+
+        final SpriteSheet sheet = atlas.getSpriteSheet("Player");
+        Assert.assertEquals("Player", sheet.getName());
+
+        // Ensure Sprite Animation Exists & Data Is Correct
+        Assert.assertNotNull(sheet.getAnimation("Standing"));
+
+        final SpriteAnimation animation = sheet.getAnimation("Standing");
+        Assert.assertEquals("Standing", animation.getName());
+        Assert.assertEquals(3, animation.getTotalFrames());
     }
 
     @Test(expected=NullPointerException.class)
