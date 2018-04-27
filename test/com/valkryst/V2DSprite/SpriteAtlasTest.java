@@ -33,17 +33,40 @@ public class SpriteAtlasTest {
         // Ensure Image Exists
         Assert.assertNotNull(atlas.getAtlasImage());
 
-        // Ensure Sprite Sheet Exists & Data Is Correct
+
+        // Validate Player Sprite Sheet & Animations
         Assert.assertNotNull(atlas.getSpriteSheet("Player"));
 
-        final SpriteSheet sheet = atlas.getSpriteSheet("Player");
+        SpriteSheet sheet = atlas.getSpriteSheet("Player");
         Assert.assertEquals("Player", sheet.getName());
 
-        // Ensure Sprite Animation Exists & Data Is Correct
         Assert.assertNotNull(sheet.getAnimation("Standing"));
+        Assert.assertNotNull(sheet.getAnimation("Sitting"));
 
-        final SpriteAnimation animation = sheet.getAnimation("Standing");
+        SpriteAnimation animation = sheet.getAnimation("Standing");
         Assert.assertEquals("Standing", animation.getName());
+        Assert.assertEquals(3, animation.getTotalFrames());
+
+        animation = sheet.getAnimation("Sitting");
+        Assert.assertEquals("Sitting", animation.getName());
+        Assert.assertEquals(3, animation.getTotalFrames());
+
+
+        // Validate enemy Sprite Sheet & Animations
+        Assert.assertNotNull(atlas.getSpriteSheet("Enemy"));
+
+        sheet = atlas.getSpriteSheet("Enemy");
+        Assert.assertEquals("Enemy", sheet.getName());
+
+        Assert.assertNotNull(sheet.getAnimation("Standing"));
+        Assert.assertNotNull(sheet.getAnimation("Sitting"));
+
+        animation = sheet.getAnimation("Standing");
+        Assert.assertEquals("Standing", animation.getName());
+        Assert.assertEquals(3, animation.getTotalFrames());
+
+        animation = sheet.getAnimation("Sitting");
+        Assert.assertEquals("Sitting", animation.getName());
         Assert.assertEquals(3, animation.getTotalFrames());
     }
 
