@@ -52,7 +52,7 @@ Within the *Sheets* array, each *SpriteSheet* is defined using a *"Name"* and an
 {
     "Sheets": [
       {
-        "Name": "Player",
+        "Name": "Enemy",
         "Animations": [
         ]
       }
@@ -66,7 +66,7 @@ We'll now create a *"Standing"* and *"Walking"* set of animations.
 {
     "Sheets": [
       {
-        "Name": "Player",
+        "Name": "Enemy",
         "Animations": [
           {
             "Name": "Standing",
