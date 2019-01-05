@@ -22,7 +22,6 @@ public class Driver {
                 System.exit(0);
             }
         });
-        frame.setLocationRelativeTo(null);
         frame.setBackground(Color.MAGENTA);
 
         final Canvas canvas = new Canvas();
@@ -32,6 +31,7 @@ public class Driver {
 
         frame.add(canvas);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         // Load Atlas
