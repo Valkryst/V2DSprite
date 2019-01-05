@@ -87,8 +87,8 @@ public class SpriteAnimation {
         final int dy2;
         final int sx1 = position.x;
         final int sy1 = position.y;
-        final int sx2 = sx1 + dimension.width - 1;
-        final int sy2 = sy1 + dimension.height - 1;
+        final int sx2 = sx1 + dimension.width;
+        final int sy2 = sy1 + dimension.height;
 
         if (flippedHorizontally) {
             dx1 = destination.x + dimension.width;
