@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Driver {
     public static void main(final String[] args) throws InterruptedException, IOException, ParseException {
@@ -40,6 +41,11 @@ public class Driver {
         final SpriteAnimation playerAnim = atlas.getSpriteSheet("Player").getAnimation("Standing");
         final SpriteAnimation enemyAnim = atlas.getSpriteSheet("Enemy").getAnimation("Standing");
 
+        // Prepare Draw Time Variables
+        double totalDrawTime = 0;
+        long draws = 0;
+
+        // Prepare Loop Variables
         long lastLoopTime = System.nanoTime();
         final int TARGET_FPS = 60;
         final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
@@ -96,14 +102,19 @@ public class Driver {
                     long bef = System.nanoTime();
                     playerAnim.draw(gc, new Point(0, 0));
                     enemyAnim.draw(gc, new Point(32, 0));
-                    System.out.println("Draw Time: " + ((System.nanoTime() - bef) / 1000000.0) + "ms");
+                    totalDrawTime += (System.nanoTime() - bef) / 1000000.0;
+                    draws++;
+
+                    if (draws % 60 == 0) {
+                        System.out.println("Avg. Draw Time: " + (totalDrawTime / draws) + "ms\tCurrent Delta Time: " + delta);
+                    }
 
                     gc.dispose();
                 }
+
                 while (bs.contentsRestored()); // Repeat render if drawing buffer contents were restored.
 
                 bs.show();
-                Toolkit.getDefaultToolkit().sync(); // NOT NECESSARY MOST OF THE TIME. FIXES SOME RENDER ISSUES ON LINUX, UNDER CERTAIN CIRUMSTANCES.
             } while (bs.contentsLost()); // Repeat render if drawing buffer was lost.
 
 
