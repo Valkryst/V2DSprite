@@ -25,7 +25,7 @@ public class Driver {
         frame.setBackground(Color.MAGENTA);
 
         final Canvas canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(512, 512));
+        canvas.setPreferredSize(new Dimension(1024, 1024));
         canvas.setIgnoreRepaint(true);
         canvas.setBackground(Color.BLACK);
 
@@ -42,7 +42,7 @@ public class Driver {
         final List<SpriteAnimation> animations = new ArrayList<>();
         int tmp = 0;
 
-        for (int i = 0 ; i < 256 ; i++) {
+        for (int i = 0 ; i < 1024 ; i++) {
             switch (tmp) {
                 case 0: {
                     animations.add(atlas.getSpriteSheet("Player").getAnimation("Standing"));
@@ -89,7 +89,7 @@ public class Driver {
                 bs = canvas.getBufferStrategy();
             }
 
-            if (spriteChangeCounter == 30) {
+            if (spriteChangeCounter == 10) {
                 animations.forEach(SpriteAnimation::toNextFrame);
                 spriteChangeCounter = 0;
             } else {
@@ -124,7 +124,7 @@ public class Driver {
                         animation.draw(gc, new Point(x * 32, y * 32));
                         x++;
 
-                        if (x >= 16) {
+                        if (x >= 32) {
                             x = 0;
                             y++;
                         }
