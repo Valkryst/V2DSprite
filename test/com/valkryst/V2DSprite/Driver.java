@@ -9,9 +9,7 @@ import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Driver {
     public static void main(final String[] args) throws InterruptedException, IOException, ParseException {
