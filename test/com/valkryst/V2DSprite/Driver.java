@@ -8,7 +8,10 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Driver {
     public static void main(final String[] args) throws InterruptedException, IOException, ParseException {
@@ -38,8 +41,26 @@ public class Driver {
         final FileInputStream atlasJSONStream = new FileInputStream("test_res/Atlas.json");
         final SpriteAtlas atlas = new SpriteAtlas(atlasImageStream, atlasJSONStream);
 
-        final SpriteAnimation playerAnim = atlas.getSpriteSheet("Player").getAnimation("Standing");
-        final SpriteAnimation enemyAnim = atlas.getSpriteSheet("Enemy").getAnimation("Standing");
+        final List<SpriteAnimation> animations = new ArrayList<>();
+        int tmp = 0;
+
+        for (int i = 0 ; i < 256 ; i++) {
+            switch (tmp) {
+                case 0: {
+                    animations.add(atlas.getSpriteSheet("Player").getAnimation("Standing"));
+                    break;
+                }
+                case 1: {
+                    animations.add(atlas.getSpriteSheet("Enemy").getAnimation("Standing"));
+                    break;
+                }
+            }
+
+            tmp++;
+            if (tmp > 1) {
+                tmp = 0;
+            }
+        }
 
         // Prepare Draw Time Variables
         double totalDrawTime = 0;
@@ -71,8 +92,7 @@ public class Driver {
             }
 
             if (spriteChangeCounter == 30) {
-                playerAnim.toNextFrame();
-                enemyAnim.toNextFrame();
+                animations.forEach(SpriteAnimation::toNextFrame);
                 spriteChangeCounter = 0;
             } else {
                 spriteChangeCounter++;
@@ -100,8 +120,18 @@ public class Driver {
                     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
                     long bef = System.nanoTime();
-                    playerAnim.draw(gc, new Point(0, 0));
-                    enemyAnim.draw(gc, new Point(32, 0));
+
+                    int x = 0, y = 0;
+                    for (final SpriteAnimation animation : animations) {
+                        animation.draw(gc, new Point(x * 32, y * 32));
+                        x++;
+
+                        if (x >= 16) {
+                            x = 0;
+                            y++;
+                        }
+                    }
+
                     totalDrawTime += (System.nanoTime() - bef) / 1000000.0;
                     draws++;
 
