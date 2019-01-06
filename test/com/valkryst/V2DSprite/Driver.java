@@ -66,20 +66,15 @@ public class Driver {
 
         // Prepare Loop Variables
         long lastLoopTime = System.nanoTime();
-        final int TARGET_FPS = 60;
-        final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+        final int targetFPS = 60;
+        final double optimalTime = 1000000000.0 / targetFPS;
 
         int spriteChangeCounter = 0;
 
-        // keep looping round til the game ends
         while (true) {
-            // work out how long its been since the last update, this
-            // will be used to calculate how far the entities should
-            // move this loop
-            long now = System.nanoTime();
-            long updateLength = now - lastLoopTime;
+            final long now = System.nanoTime();
+            final double delta = (now - lastLoopTime) / optimalTime;
             lastLoopTime = now;
-            double delta = updateLength / ((double) OPTIMAL_TIME);
 
 
             BufferStrategy bs = canvas.getBufferStrategy();
@@ -100,19 +95,33 @@ public class Driver {
                 do {
                     final Graphics2D gc = (Graphics2D) bs.getDrawGraphics();
 
+                    // Whether to bias algorithm choices more for speed or quality when evaluating tradeoffs.
                     gc.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+
+                    // Controls how closely to approximate a color when storing into a destination with limited
+                    // color resolution.
                     gc.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+
+                    // Controls the accuracy of approximation and conversion when storing colors into a
+                    // destination image or surface.
                     gc.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+
+                    // Controls how image pixels are filtered or resampled during an image rendering operation.
                     gc.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
-                    // Particles are rectangles, so no need for AA.
+                    // Controls whether or not the geometry rendering methods of a Graphics2D object will
+                    // attempt to reduce aliasing artifacts along the edges of shapes.
                     gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
-                    // No-need for text rendering related options.
+                    // Everything is done VIA images, so there's no need for text rendering options.
                     gc.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
                     gc.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 
-                    // If alpha is used, we want computations related to drawing with it to be fast.
+                    // It's possible that users will be using a large amount of transparent layers, so we want
+                    // to ensure that rendering is as quick as we can get it.
+                    //
+                    // A general hint that provides a high level recommendation as to whether to bias alpha
+                    // blending algorithm choices more for speed or quality when evaluating tradeoffs.
                     gc.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
 
                     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -152,7 +161,7 @@ public class Driver {
             // us our final value to wait for
             // remember this is in ms, whereas our lastLoopTime etc. vars are in ns.
             try {
-                Thread.sleep( (lastLoopTime-System.nanoTime() + OPTIMAL_TIME)/1000000 );
+                Thread.sleep((long) ((lastLoopTime-System.nanoTime() + optimalTime) / 1000000));
             } catch (final IllegalArgumentException ignored) {}
         }
     }
