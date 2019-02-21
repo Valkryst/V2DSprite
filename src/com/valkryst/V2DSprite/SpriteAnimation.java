@@ -149,4 +149,14 @@ public class SpriteAnimation {
     public int getTotalFrames() {
         return framePositions.length;
     }
+
+    /**
+     * Retrieves the dimensions of the current frame.
+     *
+     * @return
+     *          The dimensions of the current frame.
+     */
+    public Dimension getCurrentFrameDimensions() {
+        return frameDimensions[curFrame];
+    }
 }
