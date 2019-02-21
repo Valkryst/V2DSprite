@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="9">
-      <module name="V2DSprite" target="1.8" />
+      <module name="V2DSprite" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
