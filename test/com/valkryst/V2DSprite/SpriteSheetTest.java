@@ -1,38 +1,19 @@
 package com.valkryst.V2DSprite;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class SpriteSheetTest {
-    private SpriteAtlas atlas;
-    private JSONObject spriteJSONData;
-
-    @Before
-    public void loadAtlas() throws IOException, ParseException {
-        final FileInputStream atlasImageStream = new FileInputStream("test_res/Atlas.png");
-        FileInputStream atlasJSONStream = new FileInputStream("test_res/Atlas.json");
-        atlas = new SpriteAtlas(atlasImageStream, atlasJSONStream);
-
-        atlasJSONStream = new FileInputStream("test_res/Atlas.json");
-        final JSONParser parser = new JSONParser();
-        final JSONObject atlasData = (JSONObject) parser.parse(new InputStreamReader(atlasJSONStream));
-        final JSONArray sheetDataArray = (JSONArray) atlasData.get("Sheets");
-        spriteJSONData = (JSONObject) sheetDataArray.get(0);
-        atlasJSONStream.close();
-    }
+    private final String pngFilePath = "test_res/Atlas.png";
+    private final String jsonFilePath = "test_res/Atlas.json";
 
     @Test
-    public void testConstructor_withValidParams() {
-        final SpriteSheet sheet = new SpriteSheet(atlas, spriteJSONData);
+    public void testConstructor_withValidParams() throws IOException, ParseException {
+        final SpriteAtlas atlas = SpriteAtlas.createSpriteAtlas(pngFilePath, jsonFilePath);
+        final SpriteSheet sheet = atlas.getSpriteSheet("Player");
         Assert.assertEquals("Player", sheet.getName());
 
         // Ensure Sprite Animation Exists & Data Is Correct
@@ -43,25 +24,17 @@ public class SpriteSheetTest {
         Assert.assertEquals(3, animation.getTotalFrames());
     }
 
-    @Test(expected=NullPointerException.class)
-    public void testConstructor_withNullAtlas() {
-        new SpriteSheet(null, spriteJSONData);
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testConstructor_withNullSheetData() {
-        new SpriteSheet(atlas, null);
-    }
-
     @Test
-    public void testGetAnimation_withExistingAnimation() {
-        final SpriteSheet sheet = new SpriteSheet(atlas, spriteJSONData);
+    public void testGetAnimation_withExistingAnimation() throws IOException, ParseException {
+        final SpriteAtlas atlas = SpriteAtlas.createSpriteAtlas(pngFilePath, jsonFilePath);
+        final SpriteSheet sheet = atlas.getSpriteSheet("Player");
         Assert.assertNotNull(sheet.getAnimation("Standing"));
     }
 
     @Test
-    public void testGetAnimation_WithNonExistingAnimation() {
-        final SpriteSheet sheet = new SpriteSheet(atlas, spriteJSONData);
+    public void testGetAnimation_WithNonExistingAnimation() throws IOException, ParseException {
+        final SpriteAtlas atlas = SpriteAtlas.createSpriteAtlas(pngFilePath, jsonFilePath);
+        final SpriteSheet sheet = atlas.getSpriteSheet("Player");
         Assert.assertNull(sheet.getAnimation("SomeRandomWords"));
     }
 }

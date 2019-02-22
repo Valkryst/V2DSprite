@@ -35,9 +35,7 @@ public class Driver {
         frame.setVisible(true);
 
         // Load Atlas
-        final FileInputStream atlasImageStream = new FileInputStream("test_res/Atlas.png");
-        final FileInputStream atlasJSONStream = new FileInputStream("test_res/Atlas.json");
-        final SpriteAtlas atlas = new SpriteAtlas(atlasImageStream, atlasJSONStream);
+        final SpriteAtlas atlas = SpriteAtlas.createSpriteAtlas("test_res/Atlas.png", "test_res/Atlas.json");
 
         final List<SpriteAnimation> animations = new ArrayList<>();
         int tmp = 0;
