@@ -26,7 +26,7 @@ public class SpriteAtlas {
     /** The image used to draw with. */
     private VolatileImage volatileAtlasImage;
     /** The sprite sheets contained on the atlas image. */
-    private final HashMap<String, SpriteSheet> spriteSheets;
+    private final HashMap<String, SpriteSheet> spriteSheets = new HashMap<>(0);
 
     /**
      * Constructs a new SpriteAtlas.
@@ -34,13 +34,17 @@ public class SpriteAtlas {
      * @param atlas
      *          The atlas.
      *
-     * @param spriteSheets
-     *          The sprite sheets within the atlas.
+     * @param spriteSheetData
+     *          A JSON array of sprite sheet data.
      */
-    private SpriteAtlas(final BufferedImage atlas, final HashMap<String, SpriteSheet> spriteSheets) {
+    private SpriteAtlas(final BufferedImage atlas, final JSONArray spriteSheetData) {
         this.bufferedAtlasImage = atlas;
         volatileAtlasImage = convertToVolatileImage(bufferedAtlasImage);
-        this.spriteSheets = spriteSheets;
+
+        spriteSheetData.forEach(sheetData -> {
+            final SpriteSheet sheet = new SpriteSheet(this, (JSONObject) sheetData);
+            spriteSheets.put(sheet.getName(), sheet);
+        });
     }
 
     /**
@@ -72,7 +76,7 @@ public class SpriteAtlas {
      * @throws ParseException
      *          If there's an error when parsing the JSON.
      */
-    public SpriteAtlas createSpriteAtlas(final @NonNull String pngPath, final @NonNull String jsonPath) throws IOException, ParseException {
+    public static SpriteAtlas createSpriteAtlas(final @NonNull String pngPath, final @NonNull String jsonPath) throws IOException, ParseException {
         // Check cache for atlas.
         final int hash = Objects.hash(pngPath, jsonPath);
         final SpriteAtlas cachedAtlas = ATLAS_CACHE.getIfPresent(hash);
@@ -104,22 +108,15 @@ public class SpriteAtlas {
 
             pngInputStream.close(); // IO Exception
 
-            // Load JSON Data:
+            // Create the atlas, add it to the cache, and return it.
             final JSONParser parser = new JSONParser();
             final JSONObject atlasData = (JSONObject) parser.parse(new InputStreamReader(jsonInputStream));
 
-            final HashMap<String, SpriteSheet> spriteSheets = new HashMap<>();
-            final JSONArray sheetDataArray = (JSONArray) atlasData.get("Sheets");
-            sheetDataArray.forEach(sheetData -> {
-                final SpriteSheet sheet = new SpriteSheet(this, (JSONObject) sheetData);
-                spriteSheets.put(sheet.getName(), sheet);
-            });
-
+            final SpriteAtlas atlas = new SpriteAtlas(bufferedAtlasImage, (JSONArray) atlasData.get("Sheets"));
             jsonInputStream.close();
 
-            // Create the atlas, add it to the cache, and return it.
-            final SpriteAtlas atlas = new SpriteAtlas(bufferedAtlasImage, spriteSheets);
             ATLAS_CACHE.put(hash, atlas);
+
             return atlas;
         }
 
@@ -155,21 +152,13 @@ public class SpriteAtlas {
 
         pngInputStream.close(); // IO Exception
 
-        // Load JSON Data:
+        // Create the atlas, add it to the cache, and return it.
         final JSONParser parser = new JSONParser();
         final JSONObject atlasData = (JSONObject) parser.parse(new InputStreamReader(jsonInputStream));
 
-        final HashMap<String, SpriteSheet> spriteSheets = new HashMap<>();
-        final JSONArray sheetDataArray = (JSONArray) atlasData.get("Sheets");
-        sheetDataArray.forEach(sheetData -> {
-            final SpriteSheet sheet = new SpriteSheet(this, (JSONObject) sheetData);
-            spriteSheets.put(sheet.getName(), sheet);
-        });
-
+        final SpriteAtlas atlas = new SpriteAtlas(bufferedAtlasImage, (JSONArray) atlasData.get("Sheets"));
         jsonInputStream.close();
 
-        // Create the atlas, add it to the cache, and return it.
-        final SpriteAtlas atlas = new SpriteAtlas(bufferedAtlasImage, spriteSheets);
         ATLAS_CACHE.put(hash, atlas);
         return atlas;
     }
