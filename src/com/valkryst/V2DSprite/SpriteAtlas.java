@@ -124,20 +124,20 @@ public class SpriteAtlas {
         final File pngFile = new File(pngPath);
         final File jsonFile = new File(jsonPath);
 
-        if (pngFile.isDirectory()) {
-            throw new FileNotFoundException("The PNG file path '" + pngPath + "' points to a directory.");
-        }
-
-        if (jsonFile.isDirectory()) {
-            throw new FileNotFoundException("The JSON file path '" + jsonPath + "' points to a directory.");
-        }
-
         if (!pngFile.exists()) {
             throw new FileNotFoundException("The PNG file '" + pngPath + "' does not exist.");
         }
 
         if (!jsonFile.exists()) {
             throw new FileNotFoundException("The JSON file '" + jsonPath + "' does not exist.");
+        }
+
+        if (pngFile.isDirectory()) {
+            throw new FileNotFoundException("The PNG file path '" + pngPath + "' points to a directory.");
+        }
+
+        if (jsonFile.isDirectory()) {
+            throw new FileNotFoundException("The JSON file path '" + jsonPath + "' points to a directory.");
         }
 
         pngInputStream = new FileInputStream(pngFile);
