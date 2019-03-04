@@ -45,25 +45,13 @@ public class Sprite {
         name = VJSON.getString(data, "Name");
 
         // Load position and dimensions
-        JSONObject temp = (JSONObject) data.get("Data");
+        final int x = VJSON.getInt(data, "x");
+        final int y = VJSON.getInt(data, "y");
+        final int width = VJSON.getInt(data, "width");
+        final int height = VJSON.getInt(data, "height");
 
-        if (temp == null) {
-            final int x = VJSON.getInt(data, "x");
-            final int y = VJSON.getInt(data, "y");
-            final int width = VJSON.getInt(data, "width");
-            final int height = VJSON.getInt(data, "height");
-
-            position = new Point(x, y);
-            dimensions = new Dimension(width, height);
-        } else {
-            final int x = VJSON.getInt(temp, "x");
-            final int y = VJSON.getInt(temp, "y");
-            final int width = VJSON.getInt(temp, "width");
-            final int height = VJSON.getInt(temp, "height");
-
-            position = new Point(x, y);
-            dimensions = new Dimension(width, height);
-        }
+        position = new Point(x, y);
+        dimensions = new Dimension(width, height);
 
         // Load bounding boxes.
         final JSONArray boundingBoxData = (JSONArray) data.get("Bounding Boxes");
