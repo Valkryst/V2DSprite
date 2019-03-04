@@ -1,106 +1,59 @@
 {
-  "Sheets": [
-    {
-      "Name": "Player",
-      "Animations": [
+    "Sprite Atlas": [
         {
-          "Name": "Standing",
-          "Frames": [
-            {
-              "x": 0,
-              "y": 0,
-              "width": 32,
-              "height": 32
-            },
-            {
-              "x": 32,
-              "y": 0,
-              "width": 32,
-              "height": 32
-            },
-            {
-              "x": 64,
-              "y": 0,
-              "width": 32,
-              "height": 32
+            "Name": "Enemy, Without Bounding Boxes",
+            "Data": {
+                "x": 0,
+                "y": 32,
+                "width": 32,
+                "height": 32
             }
-          ]
         },
         {
-          "Name": "Sitting",
-          "Frames": [
-            {
-              "x": 0,
-              "y": 32,
-              "width": 32,
-              "height": 32
+            "Name": "Enemy, With Bounding Boxes",
+            "Data": {
+                "x": 0,
+                "y": 32,
+                "width": 32,
+                "height": 32
             },
-            {
-              "x": 32,
-              "y": 32,
-              "width": 32,
-              "height": 32
-            },
-            {
-              "x": 64,
-              "y": 32,
-              "width": 32,
-              "height": 32
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Name": "Enemy",
-      "Animations": [
-        {
-          "Name": "Standing",
-          "Frames": [
-            {
-              "x": 0,
-              "y": 32,
-              "width": 32,
-              "height": 32
-            },
-            {
-              "x": 32,
-              "y": 32,
-              "width": 32,
-              "height": 32
-            },
-            {
-              "x": 64,
-              "y": 32,
-              "width": 32,
-              "height": 32
-            }
-          ]
+            "Bounding Boxes": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "width": 16,
+                    "height": 16
+                },
+                {
+                    "x": 16,
+                    "y": 0,
+                    "width": 16,
+                    "height": 16
+                }
+            ]
         },
         {
-          "Name": "Sitting",
-          "Frames": [
-            {
-              "x": 0,
-              "y": 96,
-              "width": 32,
-              "height": 32
-            },
-            {
-              "x": 32,
-              "y": 96,
-              "width": 32,
-              "height": 32
-            },
-            {
-              "x": 64,
-              "y": 96,
-              "width": 32,
-              "height": 32
-            }
-          ]
+            "Name": "Player",
+            "Frames": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "width": 32,
+                    "height": 32
+                },
+                {
+                    "x": 32,
+                    "y": 0,
+                    "width": 32,
+                    "height": 32
+                },
+                {
+                    "x": 64,
+                    "y": 0,
+                    "width": 32,
+                    "height": 32
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
