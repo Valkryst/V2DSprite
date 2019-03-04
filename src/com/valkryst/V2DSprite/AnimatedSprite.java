@@ -100,6 +100,29 @@ public class AnimatedSprite {
     }
 
     /**
+     * Attempts to set the frame counter, so that the sprite with a specific name is displayed.
+     *
+     * Does nothing if no sprite with the name is found.
+     *
+     * @param name
+     *          The name.
+     */
+    public void toFrameWithName(final String name) {
+        for (int i = 0 ; i < sprites.length ; i++) {
+            final String temp = sprites[i].getName();
+
+            if (temp == null) {
+                continue;
+            }
+
+            if (temp.equals(name)) {
+                currentFrame = i;
+                break;
+            }
+        }
+    }
+
+    /**
      * Determines whether the animation is on its first frame.
      *
      * @return
