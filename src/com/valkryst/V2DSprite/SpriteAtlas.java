@@ -2,6 +2,7 @@ package com.valkryst.V2DSprite;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.valkryst.VJSON.VJSON;
 import lombok.NonNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,10 +26,9 @@ public class SpriteAtlas {
     private final BufferedImage bufferedAtlasImage;
     /** The image used to draw with. */
     private VolatileImage volatileAtlasImage;
-    /** The sprites contained in the atlas image. */
-    private final HashMap<String, Sprite> sprites = new HashMap<>(0);
-    /** The animated sprites contained in the atlas image. */
-    private final HashMap<String, AnimatedSprite> animatedSprites = new HashMap<>(0);
+
+    /** The sprite sheets on the atlas. */
+    private final HashMap<String, SpriteSheet> spriteSheets = new HashMap<>(0);
 
     /**
      * Constructs a new SpriteAtlas.
@@ -46,36 +46,13 @@ public class SpriteAtlas {
         JSONObject data;
         for (int i = 0 ; i < dataArray.size() ; i++) {
             data = (JSONObject) dataArray.get(i);
+            final String name = VJSON.getString(data, "Name");
 
-            if (data.get("Data") != null) {
-                final Sprite sprite = new Sprite(this, data);
-                final String name = sprite.getName();
-
-                if (sprites.containsValue(name)) {
-                    throw new IllegalStateException("The atlas has two sprites with the same name ('" + name + "').");
-                }
-
-                if (animatedSprites.containsValue(name)) {
-                    throw new IllegalStateException("The atlas has a sprite and an animated sprite with the same name ('" + name + "').");
-                }
-
-                sprites.put(name, sprite);
-            } else if (data.get("Frames") != null) {
-                final AnimatedSprite sprite = new AnimatedSprite(this, data);
-                final String name = sprite.getName();
-
-                if (sprites.containsValue(name)) {
-                    throw new IllegalStateException("The atlas has a sprite and an animated sprite with the same  ('" + name + "').");
-                }
-
-                if (animatedSprites.containsValue(name)) {
-                    throw new IllegalStateException("The atlas has two sprites with the same name ('" + name + "').");
-                }
-
-                animatedSprites.put(name, sprite);
-            } else {
-                throw new IllegalStateException("Unable to determine if the following data represents a Sprite or AnimatedSprite.\n" + data);
+            if (spriteSheets.containsValue(name)) {
+                throw new IllegalStateException("The sprite atlas has two sprite sheets wit hthe name name ('" + name + "').");
             }
+
+            spriteSheets.put(name, new SpriteSheet(this, (JSONArray) data.get("Sprite Sheet")));
         }
     }
 
@@ -234,36 +211,19 @@ public class SpriteAtlas {
     }
 
     /**
-     * Retrieves a specific sprite.
+     * Retrieves a specific sprite sheet.
      *
      * @param name
-     *          The sprite's name.
+     *          The sheet's name.
      *
      * @return
-     *          The sprite, or null if no sprite with the name was found.
+     *          The sheet, or null if no sprite with the name was found.
      */
-    public Sprite getSprite(final String name) {
+    public SpriteSheet getSpriteSheet(final String name) {
         if (name == null || name.isEmpty()) {
             return null;
         }
 
-        return sprites.get(name);
-    }
-
-    /**
-     * Retrieves a specific animated sprite.
-     *
-     * @param name
-     *          The sprite's name.
-     *
-     * @return
-     *          The sprite, or null if no sprite with the name was found.
-     */
-    public AnimatedSprite getAnimatedSprite(final String name) {
-        if (name == null || name.isEmpty()) {
-            return null;
-        }
-
-        return animatedSprites.get(name);
+        return spriteSheets.get(name);
     }
 }
