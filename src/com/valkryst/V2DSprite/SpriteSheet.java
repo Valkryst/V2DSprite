@@ -17,20 +17,7 @@ public class SpriteSheet {
         for (int i = 0 ; i < dataArray.size() ; i++) {
             data = (JSONObject) dataArray.get(i);
 
-            if (data.get("Data") != null) {
-                final Sprite sprite = new Sprite(atlas, data);
-                final String name = sprite.getName();
-
-                if (sprites.containsValue(name)) {
-                    throw new IllegalStateException("The sprite sheet has two sprites with the same name ('" + name + "').");
-                }
-
-                if (animatedSprites.containsValue(name)) {
-                    throw new IllegalStateException("The sprite sheet has a sprite and an animated sprite with the same name ('" + name + "').");
-                }
-
-                sprites.put(name, sprite);
-            } else if (data.get("Frames") != null) {
+             if (data.get("Frames") != null) {
                 final AnimatedSprite sprite = new AnimatedSprite(atlas, data);
                 final String name = sprite.getName();
 
@@ -44,7 +31,18 @@ public class SpriteSheet {
 
                 animatedSprites.put(name, sprite);
             } else {
-                throw new IllegalStateException("Unable to determine if the following data represents a Sprite or AnimatedSprite.\n" + data);
+                 final Sprite sprite = new Sprite(atlas, data);
+                 final String name = sprite.getName();
+
+                 if (sprites.containsValue(name)) {
+                     throw new IllegalStateException("The sprite sheet has two sprites with the same name ('" + name + "').");
+                 }
+
+                 if (animatedSprites.containsValue(name)) {
+                     throw new IllegalStateException("The sprite sheet has a sprite and an animated sprite with the same name ('" + name + "').");
+                 }
+
+                 sprites.put(name, sprite);
             }
         }
     }
