@@ -25,8 +25,10 @@ public class SpriteAtlas {
     private final BufferedImage bufferedAtlasImage;
     /** The image used to draw with. */
     private VolatileImage volatileAtlasImage;
-    /** The sprite sheets contained on the atlas image. */
-    private final HashMap<String, SpriteSheet> spriteSheets = new HashMap<>(0);
+    /** The sprites contained in the atlas image. */
+    private final HashMap<String, Sprite> sprites = new HashMap<>(0);
+    /** The animated sprites contained in the atlas image. */
+    private final HashMap<String, AnimatedSprite> animatedSprites = new HashMap<>(0);
 
     /**
      * Constructs a new SpriteAtlas.
@@ -34,17 +36,47 @@ public class SpriteAtlas {
      * @param atlas
      *          The atlas.
      *
-     * @param spriteSheetData
-     *          A JSON array of sprite sheet data.
+     * @param dataArray
+     *          A JSON array containing the atlas' data.
      */
-    private SpriteAtlas(final BufferedImage atlas, final JSONArray spriteSheetData) {
+    private SpriteAtlas(final BufferedImage atlas, final JSONArray dataArray) {
         this.bufferedAtlasImage = atlas;
         volatileAtlasImage = convertToVolatileImage(bufferedAtlasImage);
 
-        spriteSheetData.forEach(sheetData -> {
-            final SpriteSheet sheet = new SpriteSheet(this, (JSONObject) sheetData);
-            spriteSheets.put(sheet.getName(), sheet);
-        });
+        JSONObject data;
+        for (int i = 0 ; i < dataArray.size() ; i++) {
+            data = (JSONObject) dataArray.get(i);
+
+            if (data.get("Data") != null) {
+                final Sprite sprite = new Sprite(this, data);
+                final String name = sprite.getName();
+
+                if (sprites.containsValue(name)) {
+                    throw new IllegalStateException("The atlas has two sprites with the same name ('" + name + "').");
+                }
+
+                if (animatedSprites.containsValue(name)) {
+                    throw new IllegalStateException("The atlas has a sprite and an animated sprite with the same name ('" + name + "').");
+                }
+
+                sprites.put(name, sprite);
+            } else if (data.get("Frames") != null) {
+                final AnimatedSprite sprite = new AnimatedSprite(this, data);
+                final String name = sprite.getName();
+
+                if (sprites.containsValue(name)) {
+                    throw new IllegalStateException("The atlas has a sprite and an animated sprite with the same  ('" + name + "').");
+                }
+
+                if (animatedSprites.containsValue(name)) {
+                    throw new IllegalStateException("The atlas has two sprites with the same name ('" + name + "').");
+                }
+
+                animatedSprites.put(name, sprite);
+            } else {
+                throw new IllegalStateException("Unable to determine if the following data represents a Sprite or AnimatedSprite.\n" + data);
+            }
+        }
     }
 
     /**
@@ -112,7 +144,7 @@ public class SpriteAtlas {
             final JSONParser parser = new JSONParser();
             final JSONObject atlasData = (JSONObject) parser.parse(new InputStreamReader(jsonInputStream));
 
-            final SpriteAtlas atlas = new SpriteAtlas(bufferedAtlasImage, (JSONArray) atlasData.get("Sheets"));
+            final SpriteAtlas atlas = new SpriteAtlas(bufferedAtlasImage, (JSONArray) atlasData.get("Sprite Atlas"));
             jsonInputStream.close();
 
             ATLAS_CACHE.put(hash, atlas);
@@ -202,20 +234,36 @@ public class SpriteAtlas {
     }
 
     /**
-     * Retrieves a specific sprite sheet.
+     * Retrieves a specific sprite.
      *
      * @param name
-     *          The name of the sheet to retrieve.
+     *          The sprite's name.
      *
      * @return
-     *          Either the sheet, or null if the name is null, empty, or if
-     *          no sheet using the specified name exists.
+     *          The sprite, or null if no sprite with the name was found.
      */
-    public SpriteSheet getSpriteSheet(final String name) {
+    public Sprite getSprite(final String name) {
         if (name == null || name.isEmpty()) {
             return null;
         }
 
-        return spriteSheets.get(name);
+        return sprites.get(name);
+    }
+
+    /**
+     * Retrieves a specific animated sprite.
+     *
+     * @param name
+     *          The sprite's name.
+     *
+     * @return
+     *          The sprite, or null if no sprite with the name was found.
+     */
+    public AnimatedSprite getAnimatedSprite(final String name) {
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
+
+        return animatedSprites.get(name);
     }
 }
