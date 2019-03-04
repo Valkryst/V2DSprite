@@ -55,10 +55,15 @@ public class Sprite {
 
         // Load bounding boxes.
         final JSONArray boundingBoxData = (JSONArray) data.get("Bounding Boxes");
-        boundingBoxes = new BoundingBox[boundingBoxData.size()];
 
-        for (int i = 0 ; i < boundingBoxData.size() ; i++) {
-            boundingBoxes[i] = new BoundingBox((JSONObject) data.get(i));
+        if (boundingBoxData == null) {
+            boundingBoxes = new BoundingBox[0];
+        } else {
+            boundingBoxes = new BoundingBox[boundingBoxData.size()];
+
+            for (int i = 0; i < boundingBoxData.size(); i++) {
+                boundingBoxes[i] = new BoundingBox((JSONObject) data.get(i));
+            }
         }
 
         // Ensure bounding boxes have unique names.
