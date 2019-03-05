@@ -143,14 +143,25 @@ public class Sprite {
         int y = yOffset;
 
         if (flippedVertically && flippedHorizontally) {
-            x -= dimensions.width;
-            y -= dimensions.height;
+            x += dimensions.width;
+            x -= bounds.width;
+            x -= bounds.x;
+
+            y += dimensions.height;
+            y -= bounds.height;
+            y -= bounds.y;
         } else if (flippedVertically) {
-            y -= dimensions.height;
+            x += bounds.x;
+
+            y += dimensions.height;
+            y -= bounds.height;
+            y -= bounds.y;
         } else if (flippedHorizontally) {
             x += dimensions.width;
             x -= bounds.width;
             x -= bounds.x;
+
+            y += bounds.y;
         } else {
             x += bounds.x;
             y += bounds.y;
