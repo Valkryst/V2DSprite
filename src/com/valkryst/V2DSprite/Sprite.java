@@ -80,6 +80,45 @@ public class Sprite {
     }
 
     /**
+     * Constructs a new Sprite.
+     *
+     * @param atlas
+     *          The sprite atlas.
+     *
+     * @param name
+     *          The sprite's name.
+     *
+     * @param position
+     *          The position of the top-left point of the sprite within the atlas.
+     *
+     * @param dimension
+     *          The sprite's dimensions.
+     *
+     * @param boundingBoxes
+     *          The sprite's bounding boxes.
+     */
+    private Sprite(final @NonNull SpriteAtlas atlas, final String name, final Point position, final Dimension dimension, final BoundingBox[] boundingBoxes) {
+        this.atlas = atlas;
+        this.name = name;
+        this.position = position;
+        this.dimensions = dimension;
+        this.boundingBoxes = boundingBoxes;
+    }
+
+    /**
+     * Creates a clone of this sprite.
+     *
+     * @return
+     *          The clone.
+     */
+    public Sprite clone() {
+        final Sprite sprite = new Sprite(atlas, name, position, dimensions, boundingBoxes);
+        sprite.setFlippedVertically(flippedVertically);
+        sprite.setFlippedHorizontally(flippedHorizontally);
+        return sprite;
+    }
+
+    /**
      * Draws the sprite on a graphics context.
      *
      * @param gc

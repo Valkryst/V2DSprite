@@ -45,6 +45,39 @@ public class AnimatedSprite {
     }
 
     /**
+     * Constructs a new AnimatedSprite.
+     *
+     * @param name
+     *          The animated sprite's name.
+     *
+     * @param sprites
+     *          The sprites sprites that comprise the animation.
+     */
+    private AnimatedSprite(final String name, final Sprite[] sprites) {
+        this.name = name;
+        this.sprites = sprites;
+    }
+
+    /**
+     * Creates a clone of this animated sprite.
+     *
+     * @return
+     *          The clone.
+     */
+    public AnimatedSprite clone() {
+        final Sprite[] sprites = new Sprite[this.sprites.length];
+
+        for (int i = 0 ; i < this.sprites.length ; i++) {
+            sprites[i] = this.sprites[i].clone();
+        }
+
+        final AnimatedSprite animatedSprite = new AnimatedSprite(name, sprites);
+        animatedSprite.setFlippedVertically(flippedVertically);
+        animatedSprite.setFlippedHorizontally(flippedHorizontally);
+        return animatedSprite;
+    }
+
+    /**
      * Draws the current sprite on a graphics context.
      *
      * @param gc
