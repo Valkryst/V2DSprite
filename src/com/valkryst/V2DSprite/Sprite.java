@@ -139,8 +139,8 @@ public class Sprite {
         }
 
         final Rectangle bounds = getBoundingBox(name).getBounds();
-        int x = xOffset + bounds.x;
-        int y = yOffset + bounds.y;
+        int x = xOffset;
+        int y = yOffset;
 
         if (flippedVertically && flippedHorizontally) {
             x += dimensions.width - bounds.x;
