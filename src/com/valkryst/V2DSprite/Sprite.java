@@ -132,42 +132,13 @@ public class Sprite {
             return;
         }
 
-        final BoundingBox boundingBox = getBoundingBox(name);
+        final Rectangle boundingBox = getBoundingBox(name);
 
         if (boundingBox == null) {
             return;
         }
 
-        final Rectangle bounds = getBoundingBox(name).getBounds();
-        int x = xOffset;
-        int y = yOffset;
-
-        if (flippedVertically && flippedHorizontally) {
-            x += dimensions.width;
-            x -= bounds.width;
-            x -= bounds.x;
-
-            y += dimensions.height;
-            y -= bounds.height;
-            y -= bounds.y;
-        } else if (flippedVertically) {
-            x += bounds.x;
-
-            y += dimensions.height;
-            y -= bounds.height;
-            y -= bounds.y;
-        } else if (flippedHorizontally) {
-            x += dimensions.width;
-            x -= bounds.width;
-            x -= bounds.x;
-
-            y += bounds.y;
-        } else {
-            x += bounds.x;
-            y += bounds.y;
-        }
-
-        gc.drawRect(x, y, bounds.width, bounds.height);
+        gc.drawRect(boundingBox.x + xOffset, boundingBox.y + yOffset, boundingBox.width, boundingBox.height);
     }
 
     /**
@@ -199,10 +170,39 @@ public class Sprite {
      * @return
      *          The bounding box, or null if no bounding box with the specified name could be found.
      */
-    public BoundingBox getBoundingBox(final String name) {
+    public Rectangle getBoundingBox(final String name) {
         for (final BoundingBox boundingBox : boundingBoxes) {
             if (boundingBox.getName().equals(name)) {
-                return boundingBox;
+                final Rectangle bounds = boundingBox.getBounds();
+                int x = bounds.x;
+                int y = bounds.y;
+
+                if (flippedVertically && flippedHorizontally) {
+                    x += dimensions.width;
+                    x -= bounds.width;
+                    x -= bounds.x;
+
+                    y += dimensions.height;
+                    y -= bounds.height;
+                    y -= bounds.y;
+                } else if (flippedVertically) {
+                    x += bounds.x;
+
+                    y += dimensions.height;
+                    y -= bounds.height;
+                    y -= bounds.y;
+                } else if (flippedHorizontally) {
+                    x += dimensions.width;
+                    x -= bounds.width;
+                    x -= bounds.x;
+
+                    y += bounds.y;
+                } else {
+                    x += bounds.x;
+                    y += bounds.y;
+                }
+
+                return new Rectangle(x, y, bounds.width, bounds.height);
             }
         }
 
