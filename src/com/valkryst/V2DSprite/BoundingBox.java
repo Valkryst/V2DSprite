@@ -12,7 +12,7 @@ public class BoundingBox {
     @Getter private final String name;
 
     /** The rectangle representing the bounding box within a sprite. */
-    private final Rectangle boundingBox;
+    @Getter private final Rectangle bounds;
 
     /**
      * Constructs a new BoundingBox.
@@ -27,32 +27,6 @@ public class BoundingBox {
         final int y = VJSON.getInt(data, "y");
         final int width = VJSON.getInt(data, "width");
         final int height = VJSON.getInt(data, "height");
-        boundingBox = new Rectangle(x, y, width, height);
-    }
-
-    /**
-     * Determines whether this bounding box intersects another.
-     *
-     * @param other
-     *          The other bounding box.
-     *
-     * @return
-     *          Whether this bounding box intersects the other bounding box.
-     */
-    public boolean intersects(final BoundingBox other) {
-        return this.intersects(other);
-    }
-
-    /**
-     * Determines whether this bounding box intersects another.
-     *
-     * @param other
-     *          The other bounding box.
-     *
-     * @return
-     *          Whether this bounding box intersects the other bounding box.
-     */
-    public boolean intersects(final Rectangle other) {
-        return boundingBox.intersects(other);
+        bounds = new Rectangle(x, y, width, height);
     }
 }
