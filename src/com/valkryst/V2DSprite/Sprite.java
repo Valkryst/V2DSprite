@@ -127,7 +127,7 @@ public class Sprite {
         gc.drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
     }
 
-    public void drawBoundingBox(final Graphics2D gc, final String name) {
+    public void drawBoundingBox(final Graphics2D gc, final String name, final int xOffset, final int yOffset) {
         if (gc == null || name == null) {
             return;
         }
@@ -139,8 +139,8 @@ public class Sprite {
         }
 
         final Rectangle bounds = getBoundingBox(name).getBounds();
-        int x = position.x + bounds.x;
-        int y = position.y + bounds.y;
+        int x = xOffset + bounds.x;
+        int y = yOffset + bounds.y;
 
         if (flippedVertically && flippedHorizontally) {
             x -= dimensions.width;
