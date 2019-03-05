@@ -127,6 +127,23 @@ public class Sprite {
         gc.drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
     }
 
+    /**
+     * Draws the border of a bounding box on a graphics context.
+     *
+     * @param gc
+     *          The graphics context.
+     *
+     * @param name
+     *          The name of the bounding box to draw.
+     *
+     * @param xOffset
+     *          The x-axis offset to draw the bounding box at. This is generally the sprite's x-axis position
+     *          in the game world.
+     *
+     * @param yOffset
+     *          The y-axis offset to draw the bounding box at. This is generally the sprite's y-axis position
+     *          in the game world.
+     */
     public void drawBoundingBox(final Graphics2D gc, final String name, final int xOffset, final int yOffset) {
         if (gc == null || name == null) {
             return;
