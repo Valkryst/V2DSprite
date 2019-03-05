@@ -31,22 +31,6 @@ public class BoundingBox {
     }
 
     /**
-     * Draws the bounding box on a graphics context.
-     *
-     * @param gc
-     *          The graphics context.
-     *
-     * @param xOffset
-     *          The x-axis position of the sprite, associated with the bounding box, on the graphics context.
-     *
-     * @param yOffset
-     *          The y-axis position of the sprite, associated with the bounding box, on the graphics context.
-     */
-    public void draw(final Graphics2D gc, final int xOffset, final int yOffset) {
-        gc.drawRect(xOffset + bounds.x, yOffset + bounds.y, bounds.width, bounds.height);
-    }
-
-    /**
      * Determines whether the this bounding box intersects another.
      *
      * @param other
