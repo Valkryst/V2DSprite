@@ -139,16 +139,17 @@ public class Sprite {
         }
 
         final Rectangle bounds = getBoundingBox(name).getBounds();
-        int x = xOffset;
-        int y = yOffset;
+        int x = xOffset + bounds.x;
+        int y = yOffset + bounds.y;
 
         if (flippedVertically && flippedHorizontally) {
-            x += dimensions.width - bounds.x;
-            y += dimensions.height - bounds.y;
+            x -= dimensions.width;
+            y -= dimensions.height;
         } else if (flippedVertically) {
-            y += dimensions.height - bounds.y;
+            y -= dimensions.height;
         } else if (flippedHorizontally) {
-            x += dimensions.width - bounds.x;
+            x = -x;
+            x += (x * x) + x;
         }
 
         gc.drawRect(x, y, bounds.width, bounds.height);
