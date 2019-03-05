@@ -143,12 +143,12 @@ public class Sprite {
         int y = yOffset + bounds.y;
 
         if (flippedVertically && flippedHorizontally) {
-            x -= dimensions.width;
-            y -= dimensions.height;
+            x += dimensions.width - bounds.x;
+            y += dimensions.height - bounds.y;
         } else if (flippedVertically) {
-            y -= dimensions.height;
+            y += dimensions.height - bounds.y;
         } else if (flippedHorizontally) {
-            x -= dimensions.width;
+            x += dimensions.width - bounds.x;
         }
 
         gc.drawRect(x, y, bounds.width, bounds.height);
