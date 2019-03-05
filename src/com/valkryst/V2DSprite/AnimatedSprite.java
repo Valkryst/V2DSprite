@@ -14,7 +14,7 @@ public class AnimatedSprite {
     @Getter private final String name;
 
     /** The index of the current frame of animation. */
-    private int currentFrame = 0;
+    @Getter private int currentFrame = 0;
     /** The sprites sprites that comprise the animation. */
     private final Sprite[] sprites;
 
