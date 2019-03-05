@@ -67,8 +67,8 @@ public class Sprite {
         }
 
         // Ensure bounding boxes have unique names.
-        for (int i = 0 ; i < boundingBoxes.length ; i++) {
-            for (int k = i ; k < boundingBoxes.length ; k++) {
+        for (int i = 0 ; i < boundingBoxes.length - 1 ; i++) {
+            for (int k = i + 1 ; k < boundingBoxes.length ; k++) {
                 final String nameA = boundingBoxes[i].getName();
                 final String nameB = boundingBoxes[k].getName();
 
