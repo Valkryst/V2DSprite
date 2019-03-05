@@ -182,6 +182,8 @@ public class AnimatedSprite {
      *          The current sprite.
      */
     public Sprite getCurrentSprite() {
+        sprites[currentFrame].setFlippedVertically(flippedVertically);
+        sprites[currentFrame].setFlippedHorizontally(flippedHorizontally);
         return sprites[currentFrame];
     }
 
