@@ -62,7 +62,7 @@ public class Sprite {
             boundingBoxes = new BoundingBox[boundingBoxData.size()];
 
             for (int i = 0; i < boundingBoxData.size(); i++) {
-                boundingBoxes[i] = new BoundingBox((JSONObject) data.get(i));
+                boundingBoxes[i] = new BoundingBox((JSONObject) boundingBoxData.get(i));
             }
         }
 
