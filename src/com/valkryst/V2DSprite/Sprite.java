@@ -127,6 +127,33 @@ public class Sprite {
         gc.drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
     }
 
+    public void drawBoundingBox(final Graphics2D gc, final String name) {
+        if (gc == null || name == null) {
+            return;
+        }
+
+        final BoundingBox boundingBox = getBoundingBox(name);
+
+        if (boundingBox == null) {
+            return;
+        }
+
+        final Rectangle bounds = getBoundingBox(name).getBounds();
+        int x = position.x + bounds.x;
+        int y = position.y + bounds.y;
+
+        if (flippedVertically && flippedHorizontally) {
+            x -= dimensions.width;
+            y -= dimensions.height;
+        } else if (flippedVertically) {
+            y -= dimensions.height;
+        } else if (flippedHorizontally) {
+            x -= dimensions.width;
+        }
+
+        gc.drawRect(x, y, bounds.width, bounds.height);
+    }
+
     /**
      * Retrieves the sprite's width.
      *
