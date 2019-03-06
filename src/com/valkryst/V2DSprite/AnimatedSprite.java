@@ -188,6 +188,16 @@ public class AnimatedSprite {
     }
 
     /**
+     * Retrieves the total number of frames in the animation.
+     *
+     * @return
+     *          The total number of frames in the animation.
+     */
+    public int getTotalFrames() {
+        return sprites.length;
+    }
+
+    /**
      * Retrieves the width of the current sprite.
      *
      * @return
