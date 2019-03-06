@@ -61,7 +61,7 @@ public class SpriteSheet {
             return null;
         }
 
-        final Sprite sprite = sprites.get("name");
+        final Sprite sprite = sprites.get(name);
         return (sprite == null ? null : sprite.clone());
     }
 
@@ -79,7 +79,7 @@ public class SpriteSheet {
             return null;
         }
 
-        final AnimatedSprite sprite = animatedSprites.get("name");
+        final AnimatedSprite sprite = animatedSprites.get(name);
         return (sprite == null ? null : sprite.clone());
     }
 }
