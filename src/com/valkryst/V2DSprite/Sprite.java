@@ -53,6 +53,12 @@ public class Sprite {
         position = new Point(x, y);
         dimensions = new Dimension(width, height);
 
+        // Set horizontal/vertical flip
+        final Boolean flippedHorizontally = VJSON.getBoolean(data, "Flipped Horizontally");
+        final Boolean flippedVertically = VJSON.getBoolean(data, "Flipped Vertically");
+        this.flippedHorizontally = (flippedHorizontally == null ? false : flippedHorizontally);
+        this.flippedVertically = (flippedVertically == null ? false : flippedVertically);
+
         // Load bounding boxes.
         final JSONArray boundingBoxData = (JSONArray) data.get("Bounding Boxes");
 
