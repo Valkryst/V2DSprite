@@ -112,6 +112,8 @@ public class SpriteAtlas {
             final BufferedImage bufferedAtlasImage = ImageIO.read(pngInputStream); // IO Exception
 
             if (bufferedAtlasImage.getWidth() > 2048 || bufferedAtlasImage.getHeight() > 2048) {
+                pngInputStream.close();
+                jsonInputStream.close();
                 throw new IllegalArgumentException("The image used by the sprite atlas should not exceed 2048x2048 in size.");
             }
 
@@ -134,18 +136,46 @@ public class SpriteAtlas {
         final File jsonFile = new File(jsonPath);
 
         if (!pngFile.exists()) {
+            if (pngInputStream != null) {
+                pngInputStream.close();
+            }
+
+            if (jsonInputStream != null) {
+                jsonInputStream.close();
+            }
             throw new FileNotFoundException("The PNG file '" + pngPath + "' does not exist.");
         }
 
         if (!jsonFile.exists()) {
+            if (pngInputStream != null) {
+                pngInputStream.close();
+            }
+
+            if (jsonInputStream != null) {
+                jsonInputStream.close();
+            }
             throw new FileNotFoundException("The JSON file '" + jsonPath + "' does not exist.");
         }
 
         if (pngFile.isDirectory()) {
+            if (pngInputStream != null) {
+                pngInputStream.close();
+            }
+
+            if (jsonInputStream != null) {
+                jsonInputStream.close();
+            }
             throw new FileNotFoundException("The PNG file path '" + pngPath + "' points to a directory.");
         }
 
         if (jsonFile.isDirectory()) {
+            if (pngInputStream != null) {
+                pngInputStream.close();
+            }
+
+            if (jsonInputStream != null) {
+                jsonInputStream.close();
+            }
             throw new FileNotFoundException("The JSON file path '" + jsonPath + "' points to a directory.");
         }
 
@@ -156,6 +186,13 @@ public class SpriteAtlas {
         final BufferedImage bufferedAtlasImage = ImageIO.read(pngInputStream); // IO Exception
 
         if (bufferedAtlasImage.getWidth() > 2048 || bufferedAtlasImage.getHeight() > 2048) {
+            if (pngInputStream != null) {
+                pngInputStream.close();
+            }
+
+            if (jsonInputStream != null) {
+                jsonInputStream.close();
+            }
             throw new IllegalArgumentException("The image used by the sprite atlas should not exceed 2048x2048 in size.");
         }
 
