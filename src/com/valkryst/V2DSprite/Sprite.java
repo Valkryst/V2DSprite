@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 
 public class Sprite {
@@ -269,5 +270,21 @@ public class Sprite {
         }
 
         return null;
+    }
+
+    /**
+     * Retrieves a copy of the sprite as a BufferedImage.
+     *
+     * @return
+     *          The BufferedImage copy.
+     */
+    public BufferedImage getBufferedImage() {
+        final BufferedImage image = new BufferedImage(dimensions.width, dimensions.height, BufferedImage.TYPE_INT_ARGB);
+
+        final Graphics2D gc = (Graphics2D) image.getGraphics();
+        draw(gc, 0, 0);
+        gc.dispose();
+
+        return image;
     }
 }
