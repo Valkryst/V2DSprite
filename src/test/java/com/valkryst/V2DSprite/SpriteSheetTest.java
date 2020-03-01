@@ -52,6 +52,11 @@ public class SpriteSheetTest {
 
     @Test
     public void testGetImage() throws IOException {
+        if (SuiteHelper.isEnvironmentCircleCI()) {
+            System.out.println("Skipping this test due to headless mode issues in CircleCI.");
+            return;
+        }
+
         final var spriteSheet = new SpriteSheet(imagePath, jsonPath);
 
         final var originalImage = ImageIO.read(Files.newInputStream(imagePath));

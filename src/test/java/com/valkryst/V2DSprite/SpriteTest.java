@@ -139,6 +139,11 @@ public class SpriteTest {
 
     @Test
     public void testDraw() {
+        if (SuiteHelper.isEnvironmentCircleCI()) {
+            System.out.println("Skipping this test due to headless mode issues in CircleCI.");
+            return;
+        }
+
         final var sprite = spriteSheet.getSpriteByName("Yellow");
         Assert.assertTrue(sprite.isPresent());
 

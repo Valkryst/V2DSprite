@@ -1,4 +1,7 @@
-[![Release](https://jitpack.io/v/Valkryst/V2DSprite.svg)](https://jitpack.io/#Valkryst/VTerminal) [![Total alerts](https://img.shields.io/lgtm/alerts/g/Valkryst/V2DSprite.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Valkryst/V2DSprite/alerts/) [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Valkryst/V2DSprite.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Valkryst/V2DSprite/context:java)
+[![CircleCI](https://circleci.com/gh/Valkryst/V2DSprite.svg?style=svg)](https://circleci.com/gh/Valkryst/V2DSprite)
+[![Release](https://jitpack.io/v/Valkryst/V2DSprite.svg)](https://jitpack.io/#Valkryst/VTerminal)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Valkryst/V2DSprite.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Valkryst/V2DSprite/alerts/)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Valkryst/V2DSprite.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Valkryst/V2DSprite/context:java)
 
 ## Jar Files & Maven
 
@@ -22,7 +25,7 @@ Dependency:
 <dependency>
     <groupId>com.github.Valkryst</groupId>
     <artifactId>V2DSprite</artifactId>
-    <version>2020.01.20-FULL_REWRITE.0</version>
+    <version>2020.03.01</version>
 </dependency>
 ```
 
