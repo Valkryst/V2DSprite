@@ -8,13 +8,6 @@ jobs:
       - run: sudo apt-get update -y
       - run: sudo apt-get install xvfb -y
       - checkout
-      - restore_cache:
-          key: V2DSprite-{{ checksum "pom.xml" }}
-      - run: xvfb-run -a mvn clean install -U
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: V2DSprite-{{ checksum "pom.xml" }}
-      - run: xvfb-run -a mvn test
+      - run: xvfb-run -a mvn -Denvironment=circleci clean install -U
       - store_test_results:
           path: target/surefire-reports
