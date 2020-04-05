@@ -22,7 +22,7 @@ Dependency:
 <dependency>
     <groupId>com.github.Valkryst</groupId>
     <artifactId>V2DSprite</artifactId>
-    <version>2020.01.20-FULL_REWRITE.0</version>
+    <version>2020.04.05</version>
 </dependency>
 ```
 

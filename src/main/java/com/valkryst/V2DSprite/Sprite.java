@@ -6,10 +6,11 @@ import java.util.MissingFormatArgumentException;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import org.json.JSONObject;
 
 public class Sprite {
-    /** The com.valkryst.V2DSprite.SpriteSheet containing this sprite. */
+    /** The SpriteSheet containing this sprite. */
     private final SpriteSheet spriteSheet;
 
     /** The x-axis position of the top-left pixel, within the sprite sheet. */
@@ -21,6 +22,13 @@ public class Sprite {
     @Getter private final short width;
     /** The height. */
     @Getter private final short height;
+
+    /**
+     * Whether the sprite should be drawn using a
+     * {@link java.awt.image.VolatileImage} or a
+     * {@link java.awt.image.BufferedImage}.
+     */
+    @Setter public boolean useVolatileImage = true;
 
     /**
      * Constructs a new sprite.
@@ -96,7 +104,8 @@ public class Sprite {
      *          The position, on the graphics context, to draw this sprite.
      */
     public void draw(final @NonNull Graphics2D gc, final @NonNull Point position) {
-        gc.drawImage(spriteSheet.getImage(), position.x, position.y, position.x + width, position.y + height, x, y, x + width, y + height, null);
+        final var image = useVolatileImage ? spriteSheet.getImage() : spriteSheet.getBufferedImage();
+        gc.drawImage(image, position.x, position.y, position.x + width, position.y + height, x, y, x + width, y + height, null);
     }
 
     /**
