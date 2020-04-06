@@ -28,7 +28,7 @@ public class Sprite {
      * {@link java.awt.image.VolatileImage} or a
      * {@link java.awt.image.BufferedImage}.
      */
-    @Setter public boolean useVolatileImage = true;
+    @Setter private boolean useVolatileImage = true;
 
     /**
      * Constructs a new sprite.
