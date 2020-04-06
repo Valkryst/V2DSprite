@@ -1,5 +1,6 @@
 package com.valkryst.V2DSprite;
 
+import lombok.Getter;
 import lombok.NonNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 public class SpriteSheet {
     /** The original image, loaded from disk. */
-    private final BufferedImage bufferedImage;
+    @Getter private final BufferedImage bufferedImage;
     /** The volatile image, created from the original image. */
     private VolatileImage volatileImage;
 
