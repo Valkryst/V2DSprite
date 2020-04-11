@@ -9,9 +9,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -60,8 +61,56 @@ public class SpriteSheet {
         }
 
         bufferedImage = ImageIO.read(Files.newInputStream(imagePath));
+        parseJson(new JSONArray(Files.readString(jsonPath, StandardCharsets.UTF_8)));
+    }
 
-        final var parser = new JSONArray(Files.readString(jsonPath, StandardCharsets.UTF_8));
+    public SpriteSheet(final @NonNull String imagePath, final @NonNull String jsonPath, final boolean loadFromClassPath) throws IOException, IllegalAccessException {
+        if (loadFromClassPath) {
+            if (SpriteSheet.class.getResource(imagePath) == null) {
+                throw new FileNotFoundException("There is no file at '" + imagePath + "', in the classpath.");
+            }
+
+            if (SpriteSheet.class.getResource(jsonPath) == null) {
+                throw new FileNotFoundException("There is no file at '" + jsonPath + "', in the classpath.");
+            }
+
+            bufferedImage = loadImageFromJar(imagePath);
+            parseJson(loadJsonFromJar(jsonPath));
+        } else {
+            final var imageFile = new File(imagePath);
+            final var jsonFile = new File(jsonPath);
+
+            if (!imageFile.exists()) {
+                throw new FileNotFoundException("There is no file at '" + imagePath + "'.");
+            }
+
+            if (imageFile.isDirectory()) {
+                throw new IllegalArgumentException("The path '" + imagePath + "' points to a directory, not a file.");
+            }
+
+            if (!imageFile.canRead()) {
+                throw new IllegalAccessException("The file '" + imagePath + "' cannot be read by this application.");
+            }
+
+            if (!jsonFile.exists()) {
+                throw new FileNotFoundException("There is no file at '" + jsonPath + "'.");
+            }
+
+            if (imageFile.isDirectory()) {
+                throw new IllegalArgumentException("The path '" + imagePath + "' points to a directory, not a file.");
+            }
+
+            if (!jsonFile.canRead()) {
+                throw new IllegalAccessException("The file '" + imagePath + "' cannot be read by this application.");
+            }
+
+            bufferedImage = loadImageFromFileSystem(imageFile);
+            parseJson(loadJsonFromFileSystem(jsonFile));
+        }
+    }
+
+    private void parseJson(final JSONArray jsonArray) {
+        final var parser = jsonArray;
         parser.forEach(object -> {
             final var spriteData = (JSONObject) object;
 
@@ -73,6 +122,42 @@ public class SpriteSheet {
                 throw new MissingFormatArgumentException("There is no name value.\n" + spriteData);
             }
         });
+    }
+
+    private BufferedImage loadImageFromJar(final String imagePath) throws IOException {
+        return ImageIO.read(SpriteSheet.class.getResourceAsStream(imagePath));
+    }
+
+    private BufferedImage loadImageFromFileSystem(final File imageFile) throws IOException {
+        return ImageIO.read(imageFile);
+    }
+
+    private JSONArray loadJsonFromJar(final String jsonPath) throws IOException {
+        try(final var inputStream = SpriteSheet.class.getResourceAsStream(jsonPath)) {
+            return loadJsonFromStream(inputStream);
+        }
+    }
+
+    private JSONArray loadJsonFromFileSystem(final File jsonFile) throws IOException {
+        try (final var fileInputStream = new FileInputStream(jsonFile)) {
+            return loadJsonFromStream(fileInputStream);
+        }
+    }
+
+    private JSONArray loadJsonFromStream(final InputStream inputStream) throws IOException {
+        final var stringBuilder = new StringBuilder();
+
+        try (
+            final var inputStreamReader = new InputStreamReader(inputStream);
+            final var bufferedReader = new BufferedReader(inputStreamReader);
+        ) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+        }
+
+        return new JSONArray(stringBuilder.toString());
     }
 
     /**
