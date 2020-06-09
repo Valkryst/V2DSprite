@@ -105,7 +105,7 @@ public class Sprite {
      */
     public void draw(final @NonNull Graphics2D gc, final @NonNull Point position) {
         final var image = useVolatileImage ? spriteSheet.getImage() : spriteSheet.getBufferedImage();
-        gc.drawImage(image, position.x, position.y, width, height, x, y, x + width, y + height, null);
+        gc.drawImage(image, position.x, position.y, position.x + width, position.y + height, x, y, x + width, y + height, null);
     }
 
     /**
