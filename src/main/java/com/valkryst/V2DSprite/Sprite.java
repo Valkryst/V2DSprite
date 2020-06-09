@@ -134,8 +134,8 @@ public class Sprite {
 
         final var image = useVolatileImage ? spriteSheet.getImage() : spriteSheet.getBufferedImage();
         gc.drawImage(image, position.x, position.y,
-                    (position.x + width) * (flipHorizontally ? 1 : -1),
-                    (position.y + height) * (flipVertically ? 1 : -1),
+                    position.x + (width * (flipHorizontally ? 1 : -1)),
+                    position.y + (height * (flipVertically ? 1 : -1)),
                     x, y, x + width, y + height, null);
     }
 }
