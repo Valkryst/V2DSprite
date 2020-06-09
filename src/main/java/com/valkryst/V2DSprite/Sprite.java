@@ -126,16 +126,4 @@ public class Sprite {
         draw(gc, position);
         gc.setTransform(originalTransform);
     }
-
-    public void draw(final Graphics2D gc, final Point position, final boolean flipHorizontally, final boolean flipVertically) {
-        if (!flipHorizontally && !flipVertically) {
-            draw(gc, position);
-        }
-
-        final var image = useVolatileImage ? spriteSheet.getImage() : spriteSheet.getBufferedImage();
-        gc.drawImage(image, position.x, position.y,
-                    position.x + (width * (flipHorizontally ? 1 : -1)),
-                    position.y + (height * (flipVertically ? 1 : -1)),
-                    x, y, x + width, y + height, null);
-    }
 }
