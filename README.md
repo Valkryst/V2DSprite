@@ -1,16 +1,51 @@
-[![CircleCI](https://circleci.com/gh/Valkryst/V2DSprite.svg?style=svg)](https://circleci.com/gh/Valkryst/V2DSprite)
-[![Release](https://jitpack.io/v/Valkryst/V2DSprite.svg)](https://jitpack.io/#Valkryst/VTerminal)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/Valkryst/V2DSprite.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Valkryst/V2DSprite/alerts/)
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Valkryst/V2DSprite.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Valkryst/V2DSprite/context:java)
+[![Java CI with Maven](https://github.com/Valkryst/V2DSprite/actions/workflows/maven.yml/badge.svg)](https://github.com/Valkryst/V2DSprite/actions/workflows/maven.yml)
 
-## Jar Files & Maven
+I will eventually publish a sample project, which demonstrates the full use of
+this library.
 
-The Maven dependency is hosted off of JitPack, so you will need to add JitPack as a repository before you add V2DSprite as a dependency.
+## Table of Contents
 
-### Maven
+* [Installation](https://github.com/Valkryst/V2DSprite#installation)
+	* [Gradle](https://github.com/Valkryst/V2DSprite#-gradle)
+	* [Maven](https://github.com/Valkryst/V2DSprite#-maven)
+	* [sbt](https://github.com/Valkryst/V2DSprite#-scala-sbt)
+* [Terminology](https://github.com/Valkryst/V2DSprite#terminology)
+* [Folder Structure](https://github.com/Valkryst/V2DSprite#folder-structure)
+* [File Structure](https://github.com/Valkryst/V2DSprite#file-structure)
+* [Supported Image Formats](https://github.com/Valkryst/V2DSprite#supported-image-formats)
+* [Credits & Inspiration](https://github.com/Valkryst/V2DSprite#credits--inspiration)
 
-JitPack:
-```xml
+## Installation
+
+V2DSprite is hosted on the [JitPack package repository](https://jitpack.io/#Valkryst/V2DSprite)
+which supports Gradle, Maven, and sbt.
+
+### ![Gradle](https://i.imgur.com/qtc6bXq.png?1) Gradle
+
+Add JitPack to your `build.gradle` at the end of repositories.
+
+```
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+Add V2DSprite as a dependency.
+
+```
+dependencies {
+	implementation 'com.github.Valkryst:V2DSprite:2023.02.24-break'
+}
+```
+
+### ![Maven](https://i.imgur.com/2TZzobp.png?1) Maven
+
+Add JitPack as a repository.
+
+``` xml
 <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -18,80 +53,150 @@ JitPack:
     </repository>
 </repositories>
 ```
-
-Dependency:
+Add V2DSprite as a dependency.
 
 ```xml
 <dependency>
     <groupId>com.github.Valkryst</groupId>
     <artifactId>V2DSprite</artifactId>
-    <version>9570003765185ca6ad27f8de5d7dace0a0108dcc</version>
+    <version>2022.02.24-break</version>
 </dependency>
 ```
 
-### Jar
+### ![Scala SBT](https://i.imgur.com/Nqv3mVd.png?1) Scala SBT
 
-Jar files can be found on the [releases](https://github.com/Valkryst/V2DSprite/releases) page.
+Add JitPack as a resolver.
 
-### Loading a SpriteSheet
-
-To load a SpriteSheet from the filesystem, you could use the following code.
-
-```java
-final Path imagePath = Paths.get("./test_res/image.png");
-final Path jsonPath = Paths.get("./test_res/data-valid.json");
-final SpriteSheet spriteSheet = new SpriteSheet(imagePath, jsonPath);
+```
+resolvers += "jitpack" at "https://jitpack.io"
 ```
 
-To load a SpriteSheet from within the JAR, you can use the following code.
+Add V2DSprite as a dependency.
 
-```java
-final Path imagePath = Paths.get(ClassName.class.getResource("./image.png").toURI());
-final Path jsonPath = Paths.get(ClassName.class.getResource("./data-valid.png").toURI());
-final SpriteSheet spriteSheet = new SpriteSheet(imagePath, jsonPath);
+```
+libraryDependencies += "com.github.Valkryst" % "V2DSprite" % "2023.02.24-break"
 ```
 
-### Defining a SpriteSheet
+## Terminology
 
-The Sprites of a SpriteSheet are defined VIA an array of JSON objects.
+* A [SpriteSheet](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/SpriteSheet.java) contains one or more [Animations](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/Animation.java).
+* An [Animation](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/Animation.java) contains one or more [Frames](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/Frame.java).
+* A [Frame](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/Frame.java) can have a [CollisionBox](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/CollisionBox.java).
+* A [Frame](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/Frame.java) can have a [Hitbox](https://github.com/Valkryst/V2DSprite/blob/master/src/main/java/com/valkryst/V2DSprite/Hitbox.java).
 
-* name - A unique ID for the sprite.
-    * Capital letters are ignored, so the words "Yellow", "YeLLoW", and "yellow" are all considered to be
-    the same.
-* x - The x-axis position of the Sprite's top-left pixel, within the SpriteSheet.
-* y - The y-axis position of the Sprite's top-left pixel, within the SpriteSheet.
-* width - The width of the Sprite, in pixels.
-* height - The height of the Sprite, in pixels.
+## Folder Structure
 
-```json
-[
-    {
-        "name": "Sprite A",
-        "x": 0,
-        "y": 0,
-        "width": 32,
-        "height": 32
-    },
-    {
-        "name": "Sprite B",
-        "x": 32,
-        "y": 0,
-        "width": 32,
-        "height": 32
-    },
-    {
-        "name": "Sprite C",
-        "x": 0,
-        "y": 32,
-        "width": 32,
-        "height": 32
-    },
-    {
-        "name": "SpriteD",
-        "x": 32,
-        "y": 32,
-        "width": 32,
-        "height": 32
-    }
-]
+V2DSprite assumes that all of your data is located within the `sprites` folder,
+within your `.jar` file.
+
+Each subfolder of the `sprites` folder must contain one sprite sheet, named
+`image.extension` and an `animations` folder.
+
+The `animations` folder must contain all of the `_collisionbox.tsv`,
+`_frame.tsv`, and `_hitbox.tsv` files for each animation in the sprite sheet.
+
+See the following heirarchy, as an example:
+
+* sprites
+  * slime_green
+    * image.png
+    * animations
+	    * idle_collisionbox.tsv
+	    * idle_frame.tsv
+	    * idle_hitbox.tsv
+	    * walk_collisionbox.tsv
+	    * walk_frame.tsv
+	    * walk_hitbox.tsv
+  * slime_purple
+    * image.tiff
+    * animations
+	    * idle_collisionbox.tsv
+	    * idle_frame.tsv
+	    * idle_hitbox.tsv
+	    * walk_collisionbox.tsv
+	    * walk_frame.tsv
+	    * walk_hitbox.tsv
+  * skeleton
+    * image.jpeg
+    * animations
+      * attack_collisionbox.tsv
+      * attack_frame.tsv
+      * attack_hitbox.tsv
+      * idle_collisionbox.tsv
+      * idle_frame.tsv
+      * idle_hitbox.tsv
+      * walk_collisionbox.tsv
+      * walk_frame.tsv
+      * walk_hitbox.tsv
+
+## File Structure
+
+Each row of the `.tsv` files correspond with one another. So, the first row in
+`_frame.tsv` defines a _Frame_ and the first row in `_collisionbox.tsv` defines
+the _Collision Box_ for that _Frame_.
+
+You are not required to use the `_collisionbox.tsv` or `_hitbox.tsv` files, but
+they are a useful feature for loading/working with that data in your projects.
+
+Please remember that the values are seperated by _tabs_, not spaces.
+
+### frame.tsv
+
+A _Frame_ is defined by:
+
+* X-Axis offset, from the top-left pixel of the _Sprite Sheet_.
+* Y-Axis offset, from the top-left pixel of the _Sprite Sheet_.
+* Width of the _Frame_ (sprite).
+* Height of the _Frame_ (sprite).
+* Duration, in milliseconds, that the _Frame_ should be displayed during an _Animation_.
+
+e.g. `xOffset yOffset width height duration`
+
+### collisionbox.tsv
+
+A _Collision Box_ is defined by:
+
+* X-Axis offset, from the top-left pixel of the _Frame_.
+* Y-Axis offset, from the top-left pixel of the _Frame_.
+* Width of the _Frame_ (sprite).
+* Height of the _Frame_ (sprite).
+
+e.g. `xOffset yOffset width height`
+
+### hitbox.tsv
+
+A _Hitbox_ is defined by:
+
+* X-Axis offset, from the top-left pixel of the _Frame_.
+* Y-Axis offset, from the top-left pixel of the _Frame_.
+* Width of the _Frame_ (sprite).
+* Height of the _Frame_ (sprite).
+
+e.g. `xOffset yOffset width height`
+
+### Frame
+
+The `_frame.tsv` file defines 
+
+The `.tsv` files all follow a similar format:
+
+```tsv
+xOffset yOffset width   height
 ```
+
+## Supported Image Formats
+
+This library uses `javax.imageio` to load images, and it supports the following
+formats:
+
+* `bmp`
+* `gif`
+* `jpeg`/`jpg`
+* `png`
+* `tiff`/`tif`
+* `wbmp`
+
+## Credits & Inspiration
+
+* [LionEngine](https://github.com/b3dgs/lionengine)
+* [LITIENGINE](https://github.com/gurkenlabs/litiengine)
