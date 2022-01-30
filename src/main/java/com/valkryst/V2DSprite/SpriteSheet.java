@@ -1,116 +1,105 @@
 package com.valkryst.V2DSprite;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.Getter;
 import lombok.NonNull;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.VolatileImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.MissingFormatArgumentException;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class SpriteSheet {
-    /** The original image, loaded from disk. */
-    @Getter private final BufferedImage bufferedImage;
-    /** The volatile image, created from the original image. */
-    private VolatileImage volatileImage;
+	/** A cache of all recently loaded {@code SpriteSheet}s. */
+	private final static Cache<String, SpriteSheet> SPRITE_SHEETS = Caffeine.newBuilder()
+																			.initialCapacity(0)
+																			.expireAfterAccess(150, TimeUnit.SECONDS)
+																			.build();
 
-    /** The sprites. */
-    private HashMap<String, Sprite> sprites = new HashMap<>();
+	/** All image formats supported by {@link javax.imageio}. */
+	private final static String[] SUPPORTED_FORMATS = new String[] {
+		"bmp", "gif", "jpeg", "jpg", "png", "tiff", "tif", "wbmp"
+	};
 
-    /**
-     * Constructs a new sprite sheet.
-     *
-     * @param imagePath
-     *          The path of the image to load.
-     *
-     * @param jsonPath
-     *          The path of the JSON data.
-     *
-     * @throws FileNotFoundException
-     *          If the image, or json, path points to a file that does not exist.
-     *
-     * @throws IOException
-     *          If an I/O error occurs.
-     */
-    public SpriteSheet(final @NonNull Path imagePath, final @NonNull Path jsonPath) throws IOException {
-        if (!Files.exists(imagePath)) {
-            throw new FileNotFoundException("There is no file at '" + imagePath + "'.");
-        }
+	@Getter private final BufferedImage image;
 
-        if (Files.isDirectory(imagePath)) {
-            throw new IllegalArgumentException("The path '" + imagePath + "' points to a directory, not a file.");
-        }
+	/**
+	 * Constructs a new {@code SpriteSheet}.
+	 *
+	 * @param spriteName
+	 * 			<p>The name of the sprite.</p>
+	 *
+	 *			<p>
+	 *			    This corresponds to the name of the folder containing the
+	 *				sprite sheet and animation data. If {@code spriteName} is
+	 *				{@code "hero"}, then the sprite sheet and animation data
+	 *				would be located in the {@code "/sprites/hero"} directory.
+	 *			</p>
+	 *
+	 * @throws FileNotFoundException
+	 * 			If the image file cannot be found within the JAR.
+	 *
+	 * @throws IOException If an error occurs when loading the image.
+	 */
+	private SpriteSheet(final @NonNull String spriteName) throws IOException {
+		for (final String format : SUPPORTED_FORMATS) {
+			final var inputStream = SpriteSheet.class.getResourceAsStream(
+				String.format(
+					"/sprites/%s/image.%s",
+					spriteName,
+					format
+				)
+			);
 
-        if (!Files.exists(jsonPath)) {
-            throw new FileNotFoundException("There is no file at '" + jsonPath + "'.");
-        }
+			if (inputStream != null) {
+				image = ImageIO.read(inputStream);
+				inputStream.close();
+				return;
+			}
+		}
 
-        if (Files.isDirectory(jsonPath)) {
-            throw new IllegalArgumentException("The path '" + jsonPath + "' points to a directory, not a file.");
-        }
+		throw new FileNotFoundException(
+			String.format("""
+				Could not find the image file for the sprite sheet named "%s",
+				using any of the following formats: %s
+			""", spriteName, Arrays.toString(SUPPORTED_FORMATS))
+		);
+	}
 
-        bufferedImage = ImageIO.read(Files.newInputStream(imagePath));
+	/**
+	 * Loads a {@code SpriteSheet} and returns it.
+	 *
+	 * @param spriteName
+	 * 			<p>The name of the sprite.</p>
+	 *
+	 *			<p>
+	 *			    This corresponds to the name of the folder containing the
+	 *				sprite sheet and animation data. If {@code spriteName} is
+	 *				{@code "hero"}, then the sprite sheet and animation data
+	 *				would be located in the {@code "/sprites/hero"} directory.
+	 *			</p>
+	 *
+	 * @return The {@code SpriteSheet}.
+	 */
+	@SneakyThrows
+	public static SpriteSheet load(final @NonNull String spriteName) {
+		var sheet = SPRITE_SHEETS.getIfPresent(spriteName);
 
-        final var parser = new JSONArray(Files.readString(jsonPath, StandardCharsets.UTF_8));
-        parser.forEach(object -> {
-            final var spriteData = (JSONObject) object;
+		if (sheet == null) {
+			sheet = new SpriteSheet(spriteName);
+			SPRITE_SHEETS.put(spriteName, sheet);
+		}
 
-            if (spriteData.has("name")) {
-                final var name = (String) spriteData.get("name");
-                final var sprite = new Sprite(this, spriteData);
-                sprites.put(name.toLowerCase(), sprite);
-            } else {
-                throw new MissingFormatArgumentException("There is no name value.\n" + spriteData);
-            }
-        });
-    }
-
-    /**
-     * Retrieves the volatile image, used for drawing sprites.
-     *
-     * @return
-     *          The volatile image.
-     */
-    public VolatileImage getImage() {
-        if (volatileImage == null || volatileImage.contentsLost()) {
-            final var graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            final var graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
-            final var graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
-
-            final int width = bufferedImage.getWidth();
-            final int height = bufferedImage.getHeight();
-            final int transparency = bufferedImage.getTransparency();
-            volatileImage = graphicsConfiguration.createCompatibleVolatileImage(width, height, transparency);
-
-            final var g2d = volatileImage.createGraphics();
-            g2d.setComposite(AlphaComposite.Src);
-            g2d.drawImage(bufferedImage, 0, 0, null);
-            g2d.dispose();
-        }
-
-        return volatileImage;
-    }
-
-    /**
-     * Retrieves a sprite by its name.
-     *
-     * @param name
-     *          The name.
-     *
-     * @return
-     *          The sprite, if a sprite with the given name exists.
-     */
-    public Optional<Sprite> getSpriteByName(final String name) {
-        return Optional.ofNullable(sprites.get(name.toLowerCase()));
-    }
+		return sheet;
+	}
 }

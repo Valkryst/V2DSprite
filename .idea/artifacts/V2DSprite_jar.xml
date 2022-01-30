@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="V2DSprite:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/V2DSprite_jar</output-path>
-    <root id="archive" name="V2DSprite.jar">
-      <element id="module-output" name="V2DSprite" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/json/json/20190722/json-20190722.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>
