@@ -25,7 +25,7 @@ Dependency:
 <dependency>
     <groupId>com.github.Valkryst</groupId>
     <artifactId>V2DSprite</artifactId>
-    <version>2020.04.05-break</version>
+    <version>9570003765185ca6ad27f8de5d7dace0a0108dcc</version>
 </dependency>
 ```
 
