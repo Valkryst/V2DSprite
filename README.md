@@ -174,16 +174,6 @@ A _Hitbox_ is defined by:
 
 e.g. `xOffset yOffset width height`
 
-### Frame
-
-The `_frame.tsv` file defines 
-
-The `.tsv` files all follow a similar format:
-
-```tsv
-xOffset yOffset width   height
-```
-
 ## Supported Image Formats
 
 This library uses `javax.imageio` to load images, and it supports the following
