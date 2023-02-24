@@ -6,7 +6,7 @@
 
     <groupId>com.github.Valkryst</groupId>
     <artifactId>V2DSprite</artifactId>
-    <version>2023.02.24-break</version>
+    <version>2023.02.24-break-fixed</version>
     <packaging>jar</packaging>
     <name>V2DSprite</name>
 
