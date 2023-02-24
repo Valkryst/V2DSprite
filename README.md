@@ -59,7 +59,7 @@ Add V2DSprite as a dependency.
 <dependency>
     <groupId>com.github.Valkryst</groupId>
     <artifactId>V2DSprite</artifactId>
-    <version>2022.02.24-break</version>
+    <version>2023.02.24-break</version>
 </dependency>
 ```
 
