@@ -1,8 +1,3 @@
-[![Java CI with Maven](https://github.com/Valkryst/V2DSprite/actions/workflows/maven.yml/badge.svg)](https://github.com/Valkryst/V2DSprite/actions/workflows/maven.yml)
-
-I will eventually publish a sample project, which demonstrates the full use of
-this library.
-
 ## Table of Contents
 
 * [Installation](https://github.com/Valkryst/V2DSprite#installation)
@@ -189,4 +184,5 @@ formats:
 ## Credits & Inspiration
 
 * [LionEngine](https://github.com/b3dgs/lionengine)
+
 * [LITIENGINE](https://github.com/gurkenlabs/litiengine)
