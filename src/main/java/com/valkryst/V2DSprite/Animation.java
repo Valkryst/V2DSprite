@@ -144,14 +144,10 @@ public class Animation {
 			throw new FileNotFoundException("Could not load data from '" + path + "'.");
 		}
 
-		final var bufferedReader = new BufferedReader(
-			new InputStreamReader(
-				Objects.requireNonNull(Animation.class.getResourceAsStream(path))
-			)
-		);
-
-		final var lines = bufferedReader.lines().toList();
-		bufferedReader.close();
+		final List<String> lines;
+		try (final var bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+			lines = bufferedReader.lines().toList();
+		}
 
 		// Attempt to construct objects from the loaded data.
 		final var fromMethod = klass.getMethod("from", String.class, int.class);
