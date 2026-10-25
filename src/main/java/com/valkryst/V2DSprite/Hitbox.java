@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
 
 /**
- * Represents the hitbox box of a single {@link Frame} of an {@link Animation}.
+ * Represents the hitbox of a single {@link Frame} of an {@link Animation}.
  *
  * @param x X-axis position of the top-left pixel of the box within a {@link Frame}
  * @param y Y-axis position of the top-left pixel of the box within a {@link Frame}.
@@ -15,12 +15,12 @@ import java.util.zip.DataFormatException;
  */
 public record Hitbox(int x, int y, int width, int height) {
 	/**
-	 * Parses a {@code CollisionBox} from a delimited {@link String}.
+	 * Parses a {@code Hitbox} from a delimited {@link String}.
 	 *
 	 * @param delimitedString Delimited string to parse.
 	 * @param delimiter Delimiter to use.
 	 *
-	 * @return Parsed {@code CollisionBox}.
+	 * @return Parsed {@code Hitbox}.
 	 */
 	public static Hitbox from(final @NonNull String delimitedString, final int delimiter) throws DataFormatException {
 		final var split = delimitedString.split(
