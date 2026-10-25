@@ -24,13 +24,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- INI File Parsing -->
-        <dependency>
-            <groupId>org.ini4j</groupId>
-            <artifactId>ini4j</artifactId>
-            <version>0.5.4</version>
-        </dependency>
-
         <!-- Caching -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
