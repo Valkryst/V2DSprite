@@ -38,10 +38,7 @@ public class Animation {
 	/** Index of the current frame. */
 	private int frameIndex = 0;
 
-	/**
-	 * The time elapsed, in milliseconds, since the current frame was first
-	 * displayed.
-	 */
+	/** Time elapsed, in milliseconds, since the current frame was first displayed. */
 	private double frameTime = 0;
 
 	// todo document
@@ -53,14 +50,14 @@ public class Animation {
 	/** Whether to play the animation in reverse. */
 	@Getter @Setter private boolean reversed = false;
 
-	/** The speed at which the animation should play. */
+	/** Speed at which the animation should play. */
 	@Getter @Setter private double speed = 1.0;
 
 	/**
 	 * Constructs a new {@code Animation}.
 	 *
 	 * @param spriteName
-	 * 			<p>The name of the sprite.</p>
+	 * 			<p>Name of the sprite.</p>
 	 *
 	 *			<p>
 	 *			    This corresponds to the name of the folder containing the
@@ -70,7 +67,7 @@ public class Animation {
 	 *			</p>
 	 *
 	 * @param animationName
-	 * 			<p>The name of the animation.</p>
+	 * 			<p>Name of the animation.</p>
 	 *
 	 * 			<p>
 	 * 			    This corresponds to the name of the file containing the
@@ -114,10 +111,7 @@ public class Animation {
 	}
 
 	private Object loadData(final Class klass, final String spriteName, final String animationName) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-		/*
-		 * Attempt to load data from one of the caches, or create a new cache
-		 * if required.
-		 */
+		//  Attempt to load data from one of the caches, or create a new cache if required.
 		final int cacheKey = Objects.hash(spriteName, animationName);
 		Object data;
 
@@ -189,10 +183,8 @@ public class Animation {
 			return;
 		}
 
-		/*
-		 * The frame time is expressed in milliseconds, so we need to multiply
-		 * by 1000 to ensure the added value is also in milliseconds.
-		 */
+		// The frame time is expressed in milliseconds, so we need to multiply by 1000 to ensure the added value is
+		// also in milliseconds.
 		frameTime += deltaTime * speed * 1000;
 
 		while (frameTime >= frames[frameIndex].duration()) {
@@ -279,8 +271,8 @@ public class Animation {
 	/**
 	 * todo Document better.
 	 * <p>
-	 *     Performs the same operation as {@link #draw(Graphics)}, but with an
-	 *     {@link AffineTransform} applied to the graphics context.
+	 *     Performs the same operation as {@link #draw(Graphics)}, but with an {@link AffineTransform} applied to the
+	 *     graphics context.
 	 * </p>
 	 *
 	 * <p>
@@ -307,7 +299,7 @@ public class Animation {
 	/**
 	 * Adds an {@link AnimationEventListener} to this {@code Animation}.
 	 *
-	 * @param listener The listener to add.
+	 * @param listener Listener to add.
 	 */
 	public void addAnimationEventListener(final @NonNull AnimationEventListener listener) {
 		listeners.add(listener);
@@ -316,7 +308,7 @@ public class Animation {
 	/**
 	 * Removes an {@link AnimationEventListener} from this {@code Animation}.
 	 *
-	 * @param listener The listener to remove.
+	 * @param listener Listener to remove.
 	 */
 	public void removeAnimationEventListener(final @NonNull AnimationEventListener listener) {
 		listeners.remove(listener);
@@ -325,7 +317,7 @@ public class Animation {
 	/**
 	 * Sends an {@link AnimationEvent} to all {@link AnimationEventListener}s.
 	 *
-	 * @param type The type of event to send.
+	 * @param type Type of event to send.
 	 */
 	private void sendEvent(final @NonNull AnimationEventType type) {
 		if (listeners.isEmpty()) {
@@ -359,9 +351,7 @@ public class Animation {
 	/**
 	 * Retrieves the current {@link CollisionBox}.
 	 *
-	 * @return
-	 * 		The current collision box, or null if the animation has no collision
-	 * 		boxes.
+	 * @return Current collision box, or null if the animation has no collision boxes.
 	 */
 	public CollisionBox getCurrentCollisionBox() {
 		if (collisionBoxes.length > 0) {
@@ -374,7 +364,7 @@ public class Animation {
 	/**
 	 * Retrieves the current {@link Frame}.
 	 *
-	 * @return The current frame.
+	 * @return Current frame.
 	 */
 	public Frame getCurrentFrame() {
 		return frames[frameIndex];
@@ -383,9 +373,7 @@ public class Animation {
 	/**
 	 * Retrieves the current {@link Hitbox}.
 	 *
-	 * @return
-	 * 		The current hit box, or null if the animation has no hit
-	 * 		boxes.
+	 * @return Current hit box, or null if the animation has no hit boxes.
 	 */
 	public Hitbox getCurrentHitbox() {
 		if (hitboxes.length > 0) {
@@ -398,7 +386,7 @@ public class Animation {
 	/**
 	 * Sets the pause state of the animation.
 	 *
-	 * @param paused The new pause state.
+	 * @param paused New pause state.
 	 */
 	public void setPaused(final boolean paused) {
 		this.paused = paused;
