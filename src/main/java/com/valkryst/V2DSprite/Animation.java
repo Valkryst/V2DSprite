@@ -32,7 +32,7 @@ public class Animation {
 
 	private final List<AnimationEventListener> listeners = new ArrayList<>(0);
 
-	private final String spriteName;
+	private final SpriteSheet spriteSheet;
 
 	// todo document
 	private final CollisionBox[] collisionBoxes;
@@ -82,7 +82,7 @@ public class Animation {
 	 * 			</p>
 	 */
 	public Animation(final @NonNull String spriteName, final @NonNull String animationName) throws IOException, DataFormatException {
-		this.spriteName = spriteName;
+		this.spriteSheet = SpriteSheet.load(spriteName);
 		this.frames = loadData(Frame.class, Frame::from, spriteName, animationName);
 
 		CollisionBox[] collisionBoxes;
@@ -237,12 +237,12 @@ public class Animation {
 	 *
 	 * @param gc The graphics context to draw on.
 	 */
-	public void draw(final @NonNull Graphics gc) throws IOException {
+	public void draw(final @NonNull Graphics gc) {
 		final var frame = frames[frameIndex];
 		final var clipBounds = gc.getClipBounds();
 
 		gc.drawImage(
-			SpriteSheet.load(spriteName).getImage(),
+			spriteSheet.getImage(),
 			clipBounds.x,
 			clipBounds.y,
 			clipBounds.x + frame.width(),
@@ -270,7 +270,7 @@ public class Animation {
 	 * @param gc The graphics context to draw on.
 	 * @param transform The transform to apply to the frame.
 	 */
-	public void draw(final @NonNull Graphics2D gc, final AffineTransform transform) throws IOException {
+	public void draw(final @NonNull Graphics2D gc, final AffineTransform transform) {
 		final var oldTransform = gc.getTransform();
 		final var oldClip = gc.getClip();
 

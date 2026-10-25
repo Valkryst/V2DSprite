@@ -76,11 +76,7 @@ public class VisualTest {
 			final var gc = (Graphics2D) canvas.getGraphics();
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 			gc.setClip(0, 0, canvas.getWidth(), canvas.getHeight());
-			try {
-				animation.draw(gc);
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
+			animation.draw(gc);
 		}, 0, 1000, TimeUnit.MILLISECONDS);
     }
 }
