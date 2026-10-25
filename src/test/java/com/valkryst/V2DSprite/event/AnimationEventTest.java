@@ -6,9 +6,20 @@ import com.valkryst.V2DSprite.type.AnimationEventType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.zip.DataFormatException;
+
 public class AnimationEventTest {
-	private final static Animation animation = new Animation("valid", "idle");
+	private static Animation animation;
 	private final static Frame frame = new Frame(0, 0, 0, 0, 0);
+
+	static {
+		try {
+			animation = new Animation("valid", "idle");
+		} catch (final IOException | DataFormatException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
 
 	@Test
 	public void testConstructor() {

@@ -6,7 +6,9 @@ import lombok.NonNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.DataFormatException;
 
 public class AnimationTest {
 	/**
@@ -20,7 +22,7 @@ public class AnimationTest {
 	 * </p>
 	 */
 	@Test
-	public void testSendEventNewFrameCalledOncePerListenerOnFirstFrame() {
+	public void testSendEventNewFrameCalledOncePerListenerOnFirstFrame() throws IOException, DataFormatException {
 		final var animation = new Animation("valid", "idle");
 		final var newFrameCount = new AtomicInteger(0);
 
@@ -45,7 +47,7 @@ public class AnimationTest {
 	 * Verifies that {@code onNewFrame} is called exactly once per listener when {@code LAST_FRAME} fires.
 	 */
 	@Test
-	public void testSendEventNewFrameCalledOncePerListenerOnLastFrame() {
+	public void testSendEventNewFrameCalledOncePerListenerOnLastFrame() throws IOException, DataFormatException {
 		final var animation = new Animation("valid", "idle");
 		animation.setReversed(true);
 

@@ -8,7 +8,6 @@ import com.valkryst.V2DSprite.type.AnimationEventType;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.SneakyThrows;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -82,8 +81,7 @@ public class Animation {
 	 * 				directory.
 	 * 			</p>
 	 */
-	@SneakyThrows
-	public Animation(final @NonNull String spriteName, final @NonNull String animationName) {
+	public Animation(final @NonNull String spriteName, final @NonNull String animationName) throws IOException, DataFormatException {
 		this.spriteName = spriteName;
 		this.frames = loadData(Frame.class, Frame::from, spriteName, animationName);
 
@@ -239,7 +237,7 @@ public class Animation {
 	 *
 	 * @param gc The graphics context to draw on.
 	 */
-	public void draw(final @NonNull Graphics gc) {
+	public void draw(final @NonNull Graphics gc) throws IOException {
 		final var frame = frames[frameIndex];
 		final var clipBounds = gc.getClipBounds();
 
@@ -272,7 +270,7 @@ public class Animation {
 	 * @param gc The graphics context to draw on.
 	 * @param transform The transform to apply to the frame.
 	 */
-	public void draw(final @NonNull Graphics2D gc, final AffineTransform transform) {
+	public void draw(final @NonNull Graphics2D gc, final AffineTransform transform) throws IOException {
 		final var oldTransform = gc.getTransform();
 		final var oldClip = gc.getClip();
 

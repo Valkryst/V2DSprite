@@ -13,9 +13,10 @@ import java.nio.file.Path;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.DataFormatException;
 
 public class VisualTest {
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException, DataFormatException {
         final var canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(512, 512));
 
@@ -75,7 +76,11 @@ public class VisualTest {
 			final var gc = (Graphics2D) canvas.getGraphics();
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 			gc.setClip(0, 0, canvas.getWidth(), canvas.getHeight());
-			animation.draw(gc);
+			try {
+				animation.draw(gc);
+			} catch (final IOException e) {
+				throw new RuntimeException(e);
+			}
 		}, 0, 1000, TimeUnit.MILLISECONDS);
     }
 }

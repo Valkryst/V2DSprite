@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -91,8 +90,7 @@ public class SpriteSheet {
 	 *
 	 * @return The {@code SpriteSheet}.
 	 */
-	@SneakyThrows
-	public static SpriteSheet load(final @NonNull String spriteName) {
+	public static SpriteSheet load(final @NonNull String spriteName) throws IOException {
 		var sheet = SPRITE_SHEETS.getIfPresent(spriteName);
 
 		if (sheet == null) {
