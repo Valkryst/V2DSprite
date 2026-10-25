@@ -20,11 +20,12 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.DataFormatException;
 
 public class Animation {
-	private final static Map<Class, Cache<Integer, Object>> DATA_CACHES = new HashMap<>();
+	private final static Map<Class<?>, Cache<Integer, Object>> DATA_CACHES = new ConcurrentHashMap<>();
 
 	private final List<AnimationEventListener> listeners = new ArrayList<>(0);
 
@@ -108,25 +109,18 @@ public class Animation {
 		this.hitboxes = hitboxes;
 	}
 
-	private Object loadData(final Class klass, final String spriteName, final String animationName) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-		//  Attempt to load data from one of the caches, or create a new cache if required.
+	private Object loadData(final Class<?> klass, final String spriteName, final String animationName) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		final int cacheKey = Objects.hash(spriteName, animationName);
-		Object data;
-
-		if (DATA_CACHES.containsKey(klass)) {
-			data = DATA_CACHES.get(klass).getIfPresent(cacheKey);
-
-			if (data != null) {
-				return data;
-			}
-		} else {
-			DATA_CACHES.put(
-				klass,
-				Caffeine.newBuilder()
-						.initialCapacity(0)
-						.expireAfterAccess(5, TimeUnit.MINUTES)
-						.build()
-			);
+		final var cache = DATA_CACHES.computeIfAbsent(
+			klass,
+			k -> Caffeine.newBuilder()
+						 .initialCapacity(0)
+						 .expireAfterAccess(5, TimeUnit.MINUTES)
+						 .build()
+		);
+		final var cached = cache.getIfPresent(cacheKey);
+		if (cached != null) {
+			return cached;
 		}
 
 		// Attempt to load data from the JAR.
@@ -150,11 +144,11 @@ public class Animation {
 		// Attempt to construct objects from the loaded data.
 		final var fromMethod = klass.getMethod("from", String.class, int.class);
 
-		data = Array.newInstance(klass, lines.size());
+		final var data = Array.newInstance(klass, lines.size());
 		for (int i = 0 ; i < lines.size() ; i++) {
 			Array.set(data, i, fromMethod.invoke(null, lines.get(i), '\t'));
 		}
-		DATA_CACHES.get(klass).put(cacheKey, data);
+		cache.put(cacheKey, data);
 
 		return data;
 	}
