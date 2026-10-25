@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +24,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.DataFormatException;
 
 public class Animation {
+	@FunctionalInterface
+	private interface Parser<T> {
+		T parse(String line, int delimiter) throws DataFormatException;
+	}
+
 	private final static Map<Class<?>, Cache<Integer, Object>> DATA_CACHES = new ConcurrentHashMap<>();
 
 	private final List<AnimationEventListener> listeners = new ArrayList<>(0);
@@ -81,11 +85,11 @@ public class Animation {
 	@SneakyThrows
 	public Animation(final @NonNull String spriteName, final @NonNull String animationName) {
 		this.spriteName = spriteName;
-		this.frames = (Frame[]) loadData(Frame.class, spriteName, animationName);
+		this.frames = loadData(Frame.class, Frame::from, spriteName, animationName);
 
 		CollisionBox[] collisionBoxes;
 		try {
-			collisionBoxes = (CollisionBox[]) loadData(CollisionBox.class, spriteName, animationName);
+			collisionBoxes = loadData(CollisionBox.class, CollisionBox::from, spriteName, animationName);
 
 			if (collisionBoxes.length != frames.length) {
 				throw new IllegalStateException("There must be an equal number of collision boxes and frames. There are currently " + collisionBoxes.length + " collision boxes and " + frames.length + " frames.");
@@ -98,7 +102,7 @@ public class Animation {
 
 		Hitbox[] hitboxes;
 		try {
-			hitboxes = (Hitbox[]) loadData(Hitbox.class, spriteName, animationName);
+			hitboxes = loadData(Hitbox.class, Hitbox::from, spriteName, animationName);
 
 			if (hitboxes.length != frames.length) {
 				throw new IllegalStateException("There must be an equal number of hitboxes and frames. There are currently " + hitboxes.length + " hitboxes and " + frames.length + " frames.");
@@ -109,10 +113,11 @@ public class Animation {
 		this.hitboxes = hitboxes;
 	}
 
-	private Object loadData(final Class<?> klass, final String spriteName, final String animationName) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+	@SuppressWarnings("unchecked")
+	private <T> T[] loadData(final Class<T> elementType, final Parser<T> parser, final String spriteName, final String animationName) throws IOException, DataFormatException {
 		final int cacheKey = Objects.hash(spriteName, animationName);
 		final var cache = DATA_CACHES.computeIfAbsent(
-			klass,
+			elementType,
 			k -> Caffeine.newBuilder()
 						 .initialCapacity(0)
 						 .expireAfterAccess(5, TimeUnit.MINUTES)
@@ -120,15 +125,14 @@ public class Animation {
 		);
 		final var cached = cache.getIfPresent(cacheKey);
 		if (cached != null) {
-			return cached;
+			return (T[]) cached;
 		}
 
-		// Attempt to load data from the JAR.
 		final var path = String.format(
 			"/sprites/%s/animations/%s_%s.tsv",
 			spriteName,
 			animationName,
-			klass.getSimpleName().toLowerCase(Locale.ROOT)
+			elementType.getSimpleName().toLowerCase(Locale.ROOT)
 		);
 
 		final var inputStream = Animation.class.getResourceAsStream(path);
@@ -141,12 +145,9 @@ public class Animation {
 			lines = bufferedReader.lines().toList();
 		}
 
-		// Attempt to construct objects from the loaded data.
-		final var fromMethod = klass.getMethod("from", String.class, int.class);
-
-		final var data = Array.newInstance(klass, lines.size());
+		final var data = (T[]) Array.newInstance(elementType, lines.size());
 		for (int i = 0 ; i < lines.size() ; i++) {
-			Array.set(data, i, fromMethod.invoke(null, lines.get(i), '\t'));
+			data[i] = parser.parse(lines.get(i), '\t');
 		}
 		cache.put(cacheKey, data);
 
