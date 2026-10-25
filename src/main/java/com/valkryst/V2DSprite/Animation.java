@@ -321,18 +321,16 @@ public class Animation {
 
 		for (final var listener : listeners) {
 			switch (type) {
-				case FIRST_FRAME -> {
-					listener.onFirstFrame(event);
-					sendEvent(AnimationEventType.NEW_FRAME);
-				}
+				case FIRST_FRAME -> listener.onFirstFrame(event);
 				case NEW_FRAME -> listener.onNewFrame(event);
-				case LAST_FRAME -> {
-					listener.onLastFrame(event);
-					sendEvent(AnimationEventType.NEW_FRAME);
-				}
+				case LAST_FRAME -> listener.onLastFrame(event);
 				case PAUSE -> listener.onPause(event);
 				case RESUME -> listener.onResume(event);
 			}
+		}
+
+		if (type == AnimationEventType.FIRST_FRAME || type == AnimationEventType.LAST_FRAME) {
+			sendEvent(AnimationEventType.NEW_FRAME);
 		}
 	}
 
