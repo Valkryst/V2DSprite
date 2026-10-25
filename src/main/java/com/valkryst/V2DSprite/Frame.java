@@ -8,28 +8,20 @@ import java.util.zip.DataFormatException;
 /**
  * Represents a single frame of an {@link Animation}.
  *
- * @param x
- * 		X-axis position of the top-left pixel of the frame within a
- * 		{@link SpriteSheet}
- *
- * @param y
- * 		Y-axis position of the top-left pixel of the frame within a
- * 		{@link SpriteSheet}.
- *
+ * @param x X-axis position of the top-left pixel of the frame within a {@link SpriteSheet}
+ * @param y Y-axis position of the top-left pixel of the frame within a {@link SpriteSheet}.
  * @param width Width of the frame within a {@link SpriteSheet}.
- *
  * @param height Height of the frame within a {@link SpriteSheet}.
- *
  * @param duration The duration of the frame in milliseconds.
  */
 public record Frame(int x, int y, int width, int height, int duration) {
 	/**
 	 * Parses a {@code Frame} from a delimited {@link String}.
 	 *
-	 * @param delimitedString The delimited string to parse.
-	 * @param delimiter The delimiter to use.
+	 * @param delimitedString Delimited string to parse.
+	 * @param delimiter Delimiter to use.
 	 *
-	 * @return The parsed {@code Frame}.
+	 * @return Parsed {@code Frame}.
 	 *
 	 * @throws DataFormatException If the string is incorrectly formatted.
 	 */

@@ -5,9 +5,8 @@ import com.valkryst.V2DSprite.listener.AnimationEventListener;
 import lombok.NonNull;
 
 /**
- * An abstract adapter class for receiving {@link AnimationEvent}s. The methods
- * in this class are empty. This class exists as convenience for creating
- * listener objects.
+ * An abstract adapter class for receiving {@link AnimationEvent}s. The methods in this class are empty. This class
+ * exists as convenience for creating listener objects.
  */
 public abstract class AnimationEventAdapter implements AnimationEventListener {
 	@Override

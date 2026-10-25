@@ -37,7 +37,7 @@ public class SpriteSheet {
 	 * Constructs a new {@code SpriteSheet}.
 	 *
 	 * @param spriteName
-	 * 			<p>The name of the sprite.</p>
+	 * 			<p>Name of the sprite.</p>
 	 *
 	 *			<p>
 	 *			    This corresponds to the name of the folder containing the
@@ -80,7 +80,7 @@ public class SpriteSheet {
 	 * Loads a {@code SpriteSheet} and returns it.
 	 *
 	 * @param spriteName
-	 * 			<p>The name of the sprite.</p>
+	 * 			<p>Name of the sprite.</p>
 	 *
 	 *			<p>
 	 *			    This corresponds to the name of the folder containing the

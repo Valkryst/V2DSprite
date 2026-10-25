@@ -9,36 +9,35 @@ import java.util.EventListener;
 
 public interface AnimationEventListener extends EventListener {
 	/**
-	 * This occurs when the first {@link Frame} is reached.
+	 * Occurs when the first {@link Frame} is reached.
 	 *
 	 * @param event The event.
 	 */
 	void onFirstFrame(final @NonNull AnimationEvent event);
 
 	/**
-	 * This occurs when a new {@link Frame} is reached. This occurs for all
-	 * frames, including the first and last frames.
+	 * Occurs when a new {@link Frame} is reached. This occurs for all frames, including the first and last frames.
 	 *
 	 * @param event The event.
 	 */
 	void onNewFrame(final @NonNull AnimationEvent event);
 
 	/**
-	 * This occurs when the last {@link Frame} is reached.
+	 * Occurs when the last {@link Frame} is reached.
 	 *
 	 * @param event The event.
 	 */
 	void onLastFrame(final @NonNull AnimationEvent event);
 
 	/**
-	 * This occurs when the {@link Animation} is paused.
+	 * Occurs when the {@link Animation} is paused.
 	 *
 	 * @param event The event.
 	 */
 	void onPause(final @NonNull AnimationEvent event);
 
 	/**
-	 * This occurs when the {@link Animation} is resumed.
+	 * Occurs when the {@link Animation} is resumed.
 	 *
 	 * @param event The event.
 	 */

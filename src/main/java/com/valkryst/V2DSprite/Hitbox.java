@@ -8,24 +8,19 @@ import java.util.zip.DataFormatException;
 /**
  * Represents the hitbox box of a single {@link Frame} of an {@link Animation}.
  *
- * @param x
- * 		X-axis position of the top-left pixel of the box within a {@link Frame}
- *
- * @param y
- * 		Y-axis position of the top-left pixel of the box within a {@link Frame}.
- *
+ * @param x X-axis position of the top-left pixel of the box within a {@link Frame}
+ * @param y Y-axis position of the top-left pixel of the box within a {@link Frame}.
  * @param width Width of the box within a {@link Frame}.
- *
  * @param height Height of the box within a {@link Frame}.
  */
 public record Hitbox(int x, int y, int width, int height) {
 	/**
 	 * Parses a {@code CollisionBox} from a delimited {@link String}.
 	 *
-	 * @param delimitedString The delimited string to parse.
-	 * @param delimiter The delimiter to use.
+	 * @param delimitedString Delimited string to parse.
+	 * @param delimiter Delimiter to use.
 	 *
-	 * @return The parsed {@code CollisionBox}.
+	 * @return Parsed {@code CollisionBox}.
 	 */
 	public static Hitbox from(final @NonNull String delimitedString, final int delimiter) throws DataFormatException {
 		final var split = delimitedString.split(
