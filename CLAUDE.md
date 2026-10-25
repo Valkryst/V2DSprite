@@ -17,3 +17,9 @@
 - Use date-based versioning: `YYYY.MM.DD` (e.g. `2026.10.25`).
 - Append `-break` when the release contains breaking changes (e.g. `2026.10.25-break`).
 - Update the version in both `pom.xml` and all snippet blocks in `README.md` on every release.
+
+## Tests
+
+- Mirror the main source directory structure under `src/test/java`.
+- Small classes: one flat `ClassNameTest.java` file (e.g. `FrameTest.java`).
+- Large classes: a `ClassNameTest/` folder containing one `MethodNameTest.java` per method (e.g. `AnimationTest/UpdateTest.java`).
