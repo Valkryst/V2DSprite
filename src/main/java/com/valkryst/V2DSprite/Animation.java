@@ -89,8 +89,7 @@ public class Animation {
 			if (collisionBoxes.length != frames.length) {
 				throw new IllegalStateException("There must be an equal number of collision boxes and frames. There are currently " + collisionBoxes.length + " collision boxes and " + frames.length + " frames.");
 			}
-		} catch (final FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (final FileNotFoundException ignored) {
 			collisionBoxes = new CollisionBox[0];
 		}
 		this.collisionBoxes = collisionBoxes;
@@ -103,8 +102,7 @@ public class Animation {
 			if (hitboxes.length != frames.length) {
 				throw new IllegalStateException("There must be an equal number of hitboxes and frames. There are currently " + hitboxes.length + " hitboxes and " + frames.length + " frames.");
 			}
-		} catch (final FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (final FileNotFoundException ignored) {
 			hitboxes = new Hitbox[0];
 		}
 		this.hitboxes = hitboxes;
