@@ -14,8 +14,6 @@
 
 ## Versioning
 
-- This project uses [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`).
-- Increment `PATCH` for backwards-compatible bug fixes.
-- Increment `MINOR` for new backwards-compatible features.
-- Increment `MAJOR` for breaking changes.
+- Use date-based versioning: `YYYY.MM.DD` (e.g. `2026.10.25`).
+- Append `-break` when the release contains breaking changes (e.g. `2026.10.25-break`).
 - Update the version in both `pom.xml` and all snippet blocks in `README.md` on every release.
