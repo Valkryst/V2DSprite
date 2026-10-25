@@ -43,4 +43,14 @@ public class FrameTest {
 			Frame.from("1,2,3,4,a", ',');
 		});
 	}
+
+	@Test
+	public void testFromWithRegexMetacharacterDelimiter() throws DataFormatException {
+		final var frame = Frame.from("1.2.3.4.5", '.');
+		Assertions.assertEquals(1, frame.x());
+		Assertions.assertEquals(2, frame.y());
+		Assertions.assertEquals(3, frame.width());
+		Assertions.assertEquals(4, frame.height());
+		Assertions.assertEquals(5, frame.duration());
+	}
 }

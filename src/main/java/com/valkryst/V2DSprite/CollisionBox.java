@@ -2,7 +2,7 @@ package com.valkryst.V2DSprite;
 
 import lombok.NonNull;
 
-import java.util.Arrays;
+import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
 
 /**
@@ -24,7 +24,7 @@ public record CollisionBox(int x, int y, int width, int height) {
 	 */
 	public static CollisionBox from(final @NonNull String delimitedString, final int delimiter) throws DataFormatException {
 		final var split = delimitedString.split(
-			Arrays.toString(Character.toChars(delimiter))
+			Pattern.quote(String.valueOf((char) delimiter))
 		);
 
 		if (split.length != 4) {
