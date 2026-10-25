@@ -32,7 +32,7 @@ Add V2DSprite as a dependency.
 
 ```
 dependencies {
-	implementation 'com.github.Valkryst:V2DSprite:2026.10.25'
+	implementation 'com.github.Valkryst:V2DSprite:2026.10.25-break'
 }
 ```
 
@@ -54,7 +54,7 @@ Add V2DSprite as a dependency.
 <dependency>
     <groupId>com.github.Valkryst</groupId>
     <artifactId>V2DSprite</artifactId>
-    <version>2026.10.25</version>
+    <version>2026.10.25-break</version>
 </dependency>
 ```
 
@@ -69,7 +69,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 Add V2DSprite as a dependency.
 
 ```
-libraryDependencies += "com.github.Valkryst" % "V2DSprite" % "2026.10.25"
+libraryDependencies += "com.github.Valkryst" % "V2DSprite" % "2026.10.25-break"
 ```
 
 ## Terminology
